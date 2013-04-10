@@ -18,7 +18,7 @@ import java.io.*;
 import java.applet.*; 
 import java.net.*;
 
-public class MapEditor extends JFrame implements ActionListener
+public class MapEditor extends JFrame implements ActionListener, MouseListener
 {
     // The preferred size of the demo
     public static final int PREFERRED_WIDTH = 680;
@@ -50,6 +50,34 @@ public class MapEditor extends JFrame implements ActionListener
     	mapEditor.setVisible(true);
     } 
 
+    //Handle events for mouse actions
+    public void mouseClicked(MouseEvent me)
+    {
+    	if(insertLocationMode.isSelected()) //Using "Insert Location" mode
+    	{
+    	
+    	}
+    	else if(deleteLocationMode.isSelected()) //Using "Delete Location" mode
+    	{
+    		
+    	}
+    	else if(insertPathMode.isSelected()) //Using "Insert Path" mode
+    	{
+    		
+    	}
+    	else if(deletePathMode.isSelected()) //Using "Delete Path" mode
+    	{
+    		
+    	}
+    }
+    
+    //Implemented methods from interface. Not used.
+    public void mouseReleased(MouseEvent me){}
+    public void mouseEntered(MouseEvent me){}
+    public void mousePressed(MouseEvent me){}
+    public void mouseExited(MouseEvent me){}
+    
+    //Handle events for menu objects
     public void actionPerformed(ActionEvent evt)
     {
     	//Actions for file menu:
