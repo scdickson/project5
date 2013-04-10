@@ -26,8 +26,9 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     //Constants
     public static final int PREFERRED_WIDTH = 680;
     public static final int PREFERRED_HEIGHT = 600;
-    public static final double MAX_ZOOM = 50.00;
-    public static final double MIN_ZOOM = 11.00;
+    public static final double MAX_ZOOM = 50.0;
+    public static final double MIN_ZOOM = 11.0;
+    public static final double ZOOM_INCREMENT = 3.0;
     
     //GUI components
     private JScrollPane scrollPane;
@@ -120,8 +121,8 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     	{
     		if(zoomValue < MAX_ZOOM)
     		{
-    			double scale = (zoomValue + 3) / 20.0;
-    			zoomValue+=3;
+    			double scale = (zoomValue + ZOOM_INCREMENT) / 20.0;
+    			zoomValue+=ZOOM_INCREMENT;
     			zoomPane.zoom(scale);
     			zoomPane.repaint();
     		}
@@ -130,8 +131,8 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     	{
     		if(zoomValue > MIN_ZOOM)
     		{
-    			double scale = (zoomValue - 3) / 20.0;
-    			zoomValue-=3;
+    			double scale = (zoomValue - ZOOM_INCREMENT) / 20.0;
+    			zoomValue-=ZOOM_INCREMENT;
     			zoomPane.zoom(scale);
     			zoomPane.repaint();
     		}
