@@ -35,8 +35,8 @@ class MapEditor extends JFrame{
 	panel.setLayout( new BorderLayout()); 
 	getContentPane().add(panel);
 
-	Icon image = new ImageIcon("purdue-map.jpg");
-	
+	Icon image = new ImageIcon("Resources/purdue-map.jpg");
+
 	JLabel label = new JLabel(image);
 	scrollPane = new JScrollPane();
 	scrollPane.getViewport().add(label);
