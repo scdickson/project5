@@ -1,3 +1,6 @@
+//Sam Dickson and Niraj Venkat
+//CS251 Project 5--Map Editor
+
 
 import javax.swing.*; 
 import javax.swing.event.*; 
@@ -17,8 +20,8 @@ import java.net.*;
 
 class MapEditor extends JFrame{
     // The preferred size of the demo
-    private int PREFERRED_WIDTH = 680;
-    private int PREFERRED_HEIGHT = 600;
+    public static final int PREFERRED_WIDTH = 680;
+    public static final int PREFERRED_HEIGHT = 600;
     private JScrollPane scrollPane;
 
     public static void main(String[] args) { 
@@ -36,7 +39,7 @@ class MapEditor extends JFrame{
 	getContentPane().add(panel);
 
 	Icon image = new ImageIcon("Resources/purdue-map.jpg");
-
+	
 	JLabel label = new JLabel(image);
 	scrollPane = new JScrollPane();
 	scrollPane.getViewport().add(label);
