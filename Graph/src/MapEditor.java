@@ -9,6 +9,7 @@ import javax.swing.border.*;
 import javax.swing.colorchooser.*; 
 import javax.swing.filechooser.*; 
 import javax.accessibility.*; 
+import javax.imageio.ImageIO;
 
 import java.awt.*; 
 import java.awt.event.*; 
@@ -17,6 +18,8 @@ import java.util.*;
 import java.io.*; 
 import java.applet.*; 
 import java.net.*;
+
+
 
 public class MapEditor extends JFrame implements ActionListener, MouseListener
 {
@@ -201,13 +204,28 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		menubar.add(helpMenu);
 		setJMenuBar(menubar);
 	
-		Icon image = new ImageIcon("Resources/purdue-map.jpg");
-		
-		JLabel label = new JLabel(image);
+		//Icon image = new ImageIcon("Resources/purdue-map.jpg");
+		//JLabel label = new JLabel(image);
+		MapCanvas mc = new MapCanvas();
 		scrollPane = new JScrollPane();
-		scrollPane.getViewport().add(label);
+		//scrollPane.getViewport().add(label);
+		scrollPane.getViewport().add(mc);
 		panel.add(scrollPane, BorderLayout.CENTER);
     }
 
+    class MapCanvas extends JPanel
+    {
+    	public void paint(Graphics g)
+    	{
+    		Image image = null;
+        	try
+        	{
+        		image = ImageIO.read(new File("Resources/purdue-map.jpg"));
+        	}
+        	catch(Exception e){}
+        	g.drawImage(image,0,0, this);
+    		g.drawOval(50, 50, 100, 100);
+    	}
+    }
 };
 
