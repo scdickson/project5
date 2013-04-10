@@ -27,6 +27,8 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     public static final int PREFERRED_WIDTH = 680;
     public static final int PREFERRED_HEIGHT = 600;
     private JScrollPane scrollPane;
+    private ZoomPane zoomPane;
+    private MapScene map;
     
     //Menu items for file menu:
     private JMenuItem exitAction;
@@ -47,6 +49,10 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     private JMenuItem aboutAction;
     private JMenuItem helpAction;
 
+    
+    //Variables
+    double zoomValue = 20.00;
+    
     public static void main(String[] args) 
     { 
     	MapEditor mapEditor = new MapEditor(); 
@@ -108,11 +114,17 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     	//Actions for map menu:
     	else if(evt.getSource().equals(zoomInAction)) //Zoom in
     	{
-    		
+    		double scale = (zoomValue + 3) / 20.0;
+    		zoomValue+=3;
+            zoomPane.zoom(scale);
+            zoomPane.repaint();
     	}
     	else if(evt.getSource().equals(zoomOutAction)) //Zoom out
     	{
-    		
+    		double scale = (zoomValue - 3) / 20.0;
+    		zoomValue-=3;
+            zoomPane.zoom(scale);
+            zoomPane.repaint();
     	}
     	
     	//Actions for help menu:
@@ -169,7 +181,7 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		//Menu items for map menu:
 		zoomInAction = new JMenuItem("Zoom In");
 		zoomInAction.addActionListener(this);
-		zoomInAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, ActionEvent.CTRL_MASK));
+		zoomInAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, ActionEvent.CTRL_MASK));
 		zoomOutAction = new JMenuItem("Zoom Out");
 		zoomOutAction.addActionListener(this);
 		zoomOutAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, ActionEvent.CTRL_MASK));
@@ -204,28 +216,19 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		menubar.add(helpMenu);
 		setJMenuBar(menubar);
 	
-		//Icon image = new ImageIcon("Resources/purdue-map.jpg");
-		//JLabel label = new JLabel(image);
-		MapCanvas mc = new MapCanvas();
+		/*Icon image = new ImageIcon("Resources/purdue-map.jpg");
+		JLabel label = new JLabel(image);
 		scrollPane = new JScrollPane();
-		//scrollPane.getViewport().add(label);
-		scrollPane.getViewport().add(mc);
-		panel.add(scrollPane, BorderLayout.CENTER);
+		scrollPane.getViewport().add(label);
+		panel.add(scrollPane, BorderLayout.CENTER);*/
+		
+		Image image = new ImageIcon("Resources/purdue-map.jpg").getImage();
+		map = new MapScene(image);
+	    zoomPane = new ZoomPane(map);
+	    
+	    getContentPane().add(zoomPane);
+	    
     }
-
-    class MapCanvas extends JPanel
-    {
-    	public void paint(Graphics g)
-    	{
-    		Image image = null;
-        	try
-        	{
-        		image = ImageIO.read(new File("Resources/purdue-map.jpg"));
-        	}
-        	catch(Exception e){}
-        	g.drawImage(image,0,0, this);
-    		g.drawOval(50, 50, 100, 100);
-    	}
-    }
+    
 };
 
