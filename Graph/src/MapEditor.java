@@ -23,9 +23,13 @@ import java.net.*;
 
 public class MapEditor extends JFrame implements ActionListener, MouseListener
 {
-    // The preferred size of the demo
+    //Constants
     public static final int PREFERRED_WIDTH = 680;
     public static final int PREFERRED_HEIGHT = 600;
+    public static final double MAX_ZOOM = 50.00;
+    public static final double MIN_ZOOM = 11.00;
+    
+    //GUI components
     private JScrollPane scrollPane;
     private ZoomPane zoomPane;
     private MapScene map;
@@ -50,7 +54,7 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     private JMenuItem helpAction;
 
     
-    //Variables
+    //Session variables
     double zoomValue = 20.00;
     
     public static void main(String[] args) 
@@ -114,17 +118,23 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     	//Actions for map menu:
     	else if(evt.getSource().equals(zoomInAction)) //Zoom in
     	{
-    		double scale = (zoomValue + 3) / 20.0;
-    		zoomValue+=3;
-            zoomPane.zoom(scale);
-            zoomPane.repaint();
+    		if(zoomValue < MAX_ZOOM)
+    		{
+    			double scale = (zoomValue + 3) / 20.0;
+    			zoomValue+=3;
+    			zoomPane.zoom(scale);
+    			zoomPane.repaint();
+    		}
     	}
     	else if(evt.getSource().equals(zoomOutAction)) //Zoom out
     	{
-    		double scale = (zoomValue - 3) / 20.0;
-    		zoomValue-=3;
-            zoomPane.zoom(scale);
-            zoomPane.repaint();
+    		if(zoomValue > MIN_ZOOM)
+    		{
+    			double scale = (zoomValue - 3) / 20.0;
+    			zoomValue-=3;
+    			zoomPane.zoom(scale);
+    			zoomPane.repaint();
+    		}
     	}
     	
     	//Actions for help menu:
@@ -215,12 +225,6 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		menubar.add(mapMenu);
 		menubar.add(helpMenu);
 		setJMenuBar(menubar);
-	
-		/*Icon image = new ImageIcon("Resources/purdue-map.jpg");
-		JLabel label = new JLabel(image);
-		scrollPane = new JScrollPane();
-		scrollPane.getViewport().add(label);
-		panel.add(scrollPane, BorderLayout.CENTER);*/
 		
 		Image image = new ImageIcon("Resources/purdue-map.jpg").getImage();
 		map = new MapScene(image);
