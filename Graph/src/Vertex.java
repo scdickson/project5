@@ -49,5 +49,13 @@ public class Vertex
 	{
 		return name;
 	}
+	
+	public boolean isThisMe(Vertex p) {
+	    int px = p.getX();
+	    int py = p.getY();
+	    int radius = MapScene.SIZE/2;
+	    return px > x - radius && px < x + radius && 
+	           py > y - radius && py < y + radius;
+	  }
 
 }

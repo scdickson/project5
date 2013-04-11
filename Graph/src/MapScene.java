@@ -17,8 +17,7 @@ public class MapScene implements Scene {
 
   private Point _lineStart;
   private Point _lineEnd;
-  private Point point;
-  private static final int SIZE = 20;
+  public static final int SIZE = 20;
 
   public MapScene(Image image) {
     _image = image;
@@ -46,22 +45,21 @@ public class MapScene implements Scene {
     // Draw the map image
     g.drawImage(_image, 0, 0, null);
 
-    // Draw the line
+    //Update Lines
+    g.setColor(Color.BLUE);
+    g.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+    if (_lineStart != null && _lineEnd != null) 
+    {
+    	g.drawLine(_lineStart.x, _lineStart.y, _lineEnd.x, _lineEnd.y);
+    }
     
-    	g.setColor(Color.BLUE);
-    	g.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-    	if (_lineStart != null && _lineEnd != null) 
-    	{
-    		g.drawLine(_lineStart.x, _lineStart.y, _lineEnd.x, _lineEnd.y);
-    	}
     
-    
-   
-	    for(Vertex v : MapEditor.points)
-	    {
-	    	g.setColor(Color.RED);
-	        g.fillOval((int) v.getX() - SIZE/2, (int) v.getY() - SIZE/2, SIZE, SIZE);
-	    }
+    //Update points
+	for(Vertex v : MapEditor.points)
+	{
+		g.setColor(Color.RED);
+	    g.fillOval((int) v.getX() - SIZE/2, (int) v.getY() - SIZE/2, SIZE, SIZE);
+	}
     
     
   }
@@ -83,7 +81,6 @@ public class MapScene implements Scene {
     _lineEnd = p;
     changeNotify(); // redraw the map
   }
-
 
   public int getWidth() { return _image.getWidth(null); }
   public int getHeight() { return _image.getHeight(null); }
