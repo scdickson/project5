@@ -55,6 +55,8 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     
     //Session variables
     public static ArrayList<Vertex> points = new ArrayList<Vertex>();
+    public static ArrayList<Path> paths = new ArrayList<Path>();
+    
     public static String imagePath = "Resources/purdue-map.jpg"; //Default map image location
     public static String filePath = ""; //Default xml location
     XML mapXML = new XML();
@@ -363,9 +365,14 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 	        	if(insertPathMode.isSelected())
 	    		{
 	        		Point point = zoomPane.toViewCoordinates(e.getPoint());
-	  	          map.mouseDragged(point);
+	  	          	map.mouseDragged(point);
 	    		}
 	          
+	        }
+	        
+	        public void mouseReleased(MouseEvent e)
+	        {
+	        	
 	        }
 	      };
 
