@@ -81,7 +81,11 @@ public class XML {
 		}
 
 		out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-		
+		out.println("<mapfile bitmap=\""+image+"\" scale-feet-per-pixel=\""+fpp+"\">");
+		for(Vertex v : MapEditor.points){
+			out.println("<location id=\""+v.id+"\" name=\""+v.name+"\" x=\""+v.x+"\" y=\""+v.y+"\" />");
+		}
+		out.println("</mapfile>");
 	}
 
 }
