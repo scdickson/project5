@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapfile bitmap="purdue-map.jpg" scale-feet-per-pixel="1.5">
+   
+<location id="0" name="Computer Science (CS)" x="356" y="567" />
+<location id="1" name="Recitation (REC)" x="467" y="346" />
+
+<path idfrom="0" idto="1" type="undirected" />
+
+</mapfile>

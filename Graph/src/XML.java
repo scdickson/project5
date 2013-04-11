@@ -8,44 +8,37 @@ import java.io.File;
 
 public class XML {
 
-		public static void main(String[] args) {
-			try {
-				 
-				File fXmlFile = new File("Resources/map.xml");
-				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-				Document doc = dBuilder.parse(fXmlFile);
-			 
-				//optional, but recommended
-				//read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
-				doc.getDocumentElement().normalize();
-			 
-				System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-			 
-				NodeList nList = doc.getElementsByTagName("location");
-			 
-				System.out.println("----------------------------");
-			 
-				for (int temp = 0; temp < nList.getLength(); temp++) {
-			 
-					Node nNode = nList.item(temp);
-			 
-					System.out.println("\nCurrent Element :" + nNode.getNodeName());
-			 
-					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-			 
-						Element eElement = (Element) nNode;
-			 
-						System.out.println("Staff id : " + eElement.getAttribute("id"));
-						System.out.println("Name : " + eElement.getAttribute("name"));
-						System.out.println("X coord : " + eElement.getAttribute("x"));
-						System.out.println("Y coord : " + eElement.getAttribute("y"));
-					}
-				}
-			    } catch (Exception e) {
-				e.printStackTrace();
-			    }
+	public void openMap(String path){
+		try {
+			File fXmlFile = new File(path);
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(fXmlFile);
 
+			doc.getDocumentElement().normalize();
+			NodeList nList = doc.getElementsByTagName("location");
+
+			for (int temp = 0; temp < nList.getLength(); temp++) {
+				Node nNode = nList.item(temp);
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element eElement = (Element) nNode;
+					int id = Integer.parseInt(eElement.getAttribute("id"));
+					String name = eElement.getAttribute("name");
+					int x = Integer.parseInt(eElement.getAttribute("x"));
+					int y = Integer.parseInt(eElement.getAttribute("y"));
+					MapEditor.points.add(new Vertex(name, id , x, y));				
+				}
+			}
+			
+			for(Vertex temp : MapEditor.points){
+				System.out.println("ID: " + temp.id);
+				System.out.println("Name: " + temp.name);
+				System.out.println("X coord: " + temp.x);
+				System.out.println("Y coord: " + temp.y);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

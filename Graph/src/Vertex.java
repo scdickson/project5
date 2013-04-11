@@ -2,10 +2,10 @@
 
 public class Vertex 
 {
-	private String name;
-	private int id;
-	private int x;
-	private int y;
+	public String name;
+	public int id;
+	public int x;
+	public int y;
 	
 	public Vertex(String name, int id, int x, int y)
 	{
