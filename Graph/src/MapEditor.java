@@ -339,6 +339,7 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		map = new MapScene(image);
 	    zoomPane = new ZoomPane(map);
 	    
+	    
 	    MouseAdapter listener = new MouseAdapter() {
 	    	public void mouseClicked(MouseEvent e)
 	        {
@@ -353,10 +354,48 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		        	}
 	        	}
 	        }
-	    	public void mousePressed(MouseEvent e) {
-	            Point point = zoomPane.toViewCoordinates(e.getPoint());
-	            map.mousePressed(point);
-	          }
+	    	public void mousePressed(MouseEvent e) 
+	    	{
+	    		if(insertPathMode.isSelected())
+	    		{
+		            Point point = zoomPane.toViewCoordinates(e.getPoint());
+		            if(paths.size() > 0)
+		            {
+		            	try
+		            	{
+			            	if(paths.get(paths.size() - 1).getEnd() == null)
+			            	{
+			            		paths.remove(paths.size() - 1);
+			            	}
+		            	}
+		            	catch(Exception e2){}
+		            }
+		            for(Vertex v : points)
+		            {
+		            	if(v.isThisMe(new Vertex(null, -1, point.x, point.y)))
+		            	{
+		            		paths.add(new Path(v, null));
+		            	}
+		            }
+		            map.mousePressed(point);
+	    		}
+	        }
+	    	
+	    	public void mouseReleased(MouseEvent e)
+	        {
+	    		if(insertPathMode.isSelected())
+	    		{
+		            Point point = zoomPane.toViewCoordinates(e.getPoint());
+		            for(Vertex v : points)
+		            {
+		            	if(v.isThisMe(new Vertex(null, -1, point.x, point.y)))
+		            	{
+		            		paths.get(paths.size() - 1).setEnd(v);
+		            	}
+		            }
+		            map.mouseReleased();
+	    		}
+	        }
 	      };
 
 	      MouseMotionAdapter motionListener = new MouseMotionAdapter() {
@@ -364,16 +403,21 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 	        {
 	        	if(insertPathMode.isSelected())
 	    		{
-	        		Point point = zoomPane.toViewCoordinates(e.getPoint());
-	  	          	map.mouseDragged(point);
+	        		try
+	        		{
+			            if(paths.get(paths.size() - 1).getEnd() == null)
+			            {
+			            	Point point = zoomPane.toViewCoordinates(e.getPoint());
+			  	          	map.mouseDragged(point);
+			            }
+	        		}
+	        		catch(Exception e2){}
+		            
 	    		}
 	          
 	        }
 	        
-	        public void mouseReleased(MouseEvent e)
-	        {
-	        	
-	        }
+	        
 	      };
 
 	      zoomPane.getZoomPanel().addMouseListener(listener);

@@ -29,5 +29,10 @@ public class Path
 	{
 		this.to = to;
 	}
+	
+	public String toString()
+	{
+		return "Vertex: from=(" + from.toString() + "), to=(" + to.toString() + ")";
+	}
 
 }

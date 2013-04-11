@@ -48,16 +48,25 @@ public class MapScene implements Scene {
     //Update Lines
     g.setColor(Color.BLUE);
     g.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+    
+    
     if (_lineStart != null && _lineEnd != null) 
     {
     	g.drawLine(_lineStart.x, _lineStart.y, _lineEnd.x, _lineEnd.y);
     }
     
+    for(Path p : MapEditor.paths)
+    {
+    	if(p.getStart() != null && p.getEnd() != null)
+    	{
+    		g.drawLine(p.getStart().getX(),p.getStart().getY(),p.getEnd().getX(),p.getEnd().getY());
+    	}
+    }
     
     //Update points
+    g.setColor(Color.RED);
 	for(Vertex v : MapEditor.points)
 	{
-		g.setColor(Color.RED);
 	    g.fillOval((int) v.getX() - SIZE/2, (int) v.getY() - SIZE/2, SIZE, SIZE);
 	}
     
@@ -71,6 +80,11 @@ public class MapScene implements Scene {
     _lineStart = p;
   }
 
+  public void mouseReleased()
+  {
+	  changeNotify();  
+  }
+  
   public void mouseClicked()
   {
 	  changeNotify();
