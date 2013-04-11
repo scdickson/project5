@@ -23,6 +23,10 @@ public class MapScene implements Scene {
     _image = image;
   }
 
+  public void setImage(Image image)
+  {
+	  _image = image;
+  }
 
   /**
    * Call this method whenever something in the map has changed that

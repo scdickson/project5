@@ -53,11 +53,13 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 
     
     //Session variables
-    public static ArrayList<Vertex> points;
-    private static String filePath = "Resources/purdue-map.jpgs"; //Default map location
-    //XML mapXML = new XML();
+    public static ArrayList<Vertex> points = new ArrayList<Vertex>();
+    public static String imagePath = "Resources/purdue-map.jpg"; //Default map image location
+    public static String filePath = ""; //Default xml location
+    XML mapXML = new XML();
     
     double zoomValue = 20.00;
+    public double scale_feet_per_pixel;
     
     public static void main(String[] args) 
     { 
@@ -103,71 +105,73 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     	else if(evt.getSource().equals(newAction)) //Create new map
     	{
     		String response = null;
-    		String tmpPath = filePath;
-    		filePath = null;
-    		double scale_feet_per_pixel = 0;
+    		String tmpPath = imagePath;
+    		imagePath = null;
+    		double tmp_scale_feet_per_pixel = scale_feet_per_pixel;
+    		scale_feet_per_pixel = 0.0;
     		boolean done = false;
     		
-    		while(!done)
+    		JFileChooser fileChooser = new JFileChooser();
+    		int result = fileChooser.showOpenDialog(this);
+    			
+    		if(result == JFileChooser.APPROVE_OPTION)
     		{
-    			filePath = JOptionPane.showInputDialog(null, "Enter a name for the new map: ", "New Map", JOptionPane.OK_CANCEL_OPTION); 
-    			if(filePath != null && !filePath.equals(""))
-    			{
-    				done = true;
-    			}
-    			else
-    			{
-    				JOptionPane.showMessageDialog(null, "Please enter a name for the map.", "Error", JOptionPane.ERROR_MESSAGE);
-    			}
-    		}
-    		
-    		done = false;
-    		if(filePath != null)
-    		{
-	    		while(!done)
+    			 imagePath = fileChooser.getSelectedFile().getAbsolutePath();
+
+	    		done = false;
+	    		if(imagePath != null)
 	    		{
-	    			response = JOptionPane.showInputDialog(null, "Enter the feet-per-pixel constant: ", "New Map", JOptionPane.OK_CANCEL_OPTION);
-	    			
-	    			if(response == null)
-	    			{
-	    				break;
-	    			}
-	    			
-	    			try
-	    			{
-	    				scale_feet_per_pixel = Double.parseDouble(response);
-	    				done = true;
-	    			}
-	    			catch(Exception e)
-	    			{
-	    				JOptionPane.showMessageDialog(null, "Invalid feet-per-pixel constant.", "Error", JOptionPane.ERROR_MESSAGE);
-	    			}
+		    		while(!done)
+		    		{
+		    			response = JOptionPane.showInputDialog(null, "Enter the feet-per-pixel constant: ", "New Map", JOptionPane.OK_CANCEL_OPTION);
+		    			
+		    			if(response == null)
+		    			{
+		    				break;
+		    			}
+		    			
+		    			try
+		    			{
+		    				scale_feet_per_pixel = Double.parseDouble(response);
+		    				done = true;
+		    			}
+		    			catch(Exception e)
+		    			{
+		    				JOptionPane.showMessageDialog(null, "Invalid feet-per-pixel constant.", "Error", JOptionPane.ERROR_MESSAGE);
+		    			}
+		    		}
 	    		}
     		}
     		
-    		if(response != null && filePath != null)
+    		if(response != null && imagePath != null)
     		{
-    			//mapXML.newMap(filePath, scale_feet_per_pixel);
-    			JOptionPane.showMessageDialog(null, "New map successfully created!", "New Map", JOptionPane.PLAIN_MESSAGE);
+    			loadImage();
+    			//JOptionPane.showMessageDialog(null, "New map successfully created!", "New Map", JOptionPane.PLAIN_MESSAGE);
     		}
     		else
     		{
-    			filePath = tmpPath;
+    			imagePath = tmpPath;
+    			scale_feet_per_pixel = tmp_scale_feet_per_pixel;
     		}
     	}
     	else if(evt.getSource().equals(openAction)) //Open existing XML 
     	{
-    		
+    		JFileChooser fileChooser = new JFileChooser();
+    		int result = fileChooser.showOpenDialog(this);
+			
+			if(result == JFileChooser.APPROVE_OPTION)
+			{
+				filePath = fileChooser.getSelectedFile().getAbsolutePath();
+				//mapXML.openMap(filePath);
+				loadImage();
+			}
+			
     	}
     	else if(evt.getSource().equals(saveAction)) //Save current XML
     	{
-    		if(filePath != null)
+    		if(filePath != null && imagePath != null)
     		{
-    			//mapXML.saveMap();
-    		}
-    		else
-    		{
-    			JOptionPane.showMessageDialog(null, "No map is loaded.", "Error", JOptionPane.ERROR_MESSAGE);
+    			//mapXML.saveMap(filePath, imagePath, scale_feet_by_pixel);
     		}
     	}
     	else if(evt.getSource().equals(saveAsAction)) //Save current XML with different name
@@ -218,7 +222,18 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     	{
     		return false;
     	}
+    	
     	return true;
+    }
+    
+    public void loadImage()
+    {
+    	Image image = new ImageIcon(imagePath).getImage();
+    	getContentPane().remove(zoomPane);
+		map.setImage(image);
+	    zoomPane.setScene(map);
+	    getContentPane().add(zoomPane);
+	    zoomPane.repaint();
     }
     
     public MapEditor() 
@@ -299,19 +314,11 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		menubar.add(helpMenu);
 		setJMenuBar(menubar);
 		
-		Image image = new ImageIcon(filePath).getImage();
+		Image image = new ImageIcon(imagePath).getImage();
 		map = new MapScene(image);
 	    zoomPane = new ZoomPane(map);
 	    getContentPane().add(zoomPane);
 	    
-	    if(verifyFile(filePath))
-	    {
-	    	//mapXML.openMap(filePath);
-	    }
-	    else
-	    {
-	    	JOptionPane.showMessageDialog(null, "Default map could not be loaded.", "Warning", JOptionPane.WARNING_MESSAGE);
-	    }
 	    
 	    
     }
