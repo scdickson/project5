@@ -113,10 +113,7 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     		boolean done = false;
     		
     		JFileChooser fileChooser = new JFileChooser();
-    		FileNameExtensionFilter filter = new FileNameExtensionFilter("Valid Map Images", "jpg", "gif");
-    		fileChooser.addChoosableFileFilter(filter);
-    		
-    		fileChooser.setAcceptAllFileFilterUsed(false);
+    		fileChooser.setFileFilter(new FileNameExtensionFilter("Valid Map Files", "jpg", "gif"));
     		int result = fileChooser.showOpenDialog(this);
     			
     		if(result == JFileChooser.APPROVE_OPTION)
@@ -162,6 +159,7 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     	else if(evt.getSource().equals(openAction)) //Open existing XML 
     	{
     		JFileChooser fileChooser = new JFileChooser();
+    		fileChooser.setFileFilter(new FileNameExtensionFilter("Valid Map Files", "xml"));
     		int result = fileChooser.showOpenDialog(this);
 			
 			if(result == JFileChooser.APPROVE_OPTION)
