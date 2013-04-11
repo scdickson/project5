@@ -47,29 +47,25 @@ public class MapScene implements Scene {
     g.drawImage(_image, 0, 0, null);
 
     // Draw the line
-    g.setColor(Color.BLUE);
-    g.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-    if (_lineStart != null && _lineEnd != null) {
-      g.drawLine(_lineStart.x, _lineStart.y, _lineEnd.x, _lineEnd.y);
-    }
     
-    if(point != null)
-    {
-    	g.setColor(Color.RED);
-        g.fillOval((int) point.getX() - SIZE/2, 
-                   (int) point.getY() - SIZE/2, 
-                   SIZE, SIZE);
-    }
+    	g.setColor(Color.BLUE);
+    	g.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+    	if (_lineStart != null && _lineEnd != null) 
+    	{
+    		g.drawLine(_lineStart.x, _lineStart.y, _lineEnd.x, _lineEnd.y);
+    	}
+    
+    
+   
+	    for(Vertex v : MapEditor.points)
+	    {
+	    	g.setColor(Color.RED);
+	        g.fillOval((int) v.getX() - SIZE/2, (int) v.getY() - SIZE/2, SIZE, SIZE);
+	    }
     
     
   }
 
-  
-  public void mouseClicked(Point p)
-  {
-	  point = p;
-	  changeNotify();
-  }
 
   public void mousePressed(Point p) {
     // Mark the beginning of the line
@@ -77,7 +73,11 @@ public class MapScene implements Scene {
     _lineStart = p;
   }
 
-
+  public void mouseClicked()
+  {
+	  changeNotify();
+  }
+  
   public void mouseDragged(Point p) {
     // Mark the end of the line
     _lineEnd = p;

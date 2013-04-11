@@ -43,10 +43,10 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     //Menu items for map menu:
     private JMenuItem zoomInAction;
     private JMenuItem zoomOutAction;
-    private JRadioButtonMenuItem insertLocationMode;
-    private JRadioButtonMenuItem deleteLocationMode;
-    private JRadioButtonMenuItem insertPathMode;
-    private JRadioButtonMenuItem deletePathMode;
+    public JRadioButtonMenuItem insertLocationMode;
+    public JRadioButtonMenuItem deleteLocationMode;
+    public JRadioButtonMenuItem insertPathMode;
+    public JRadioButtonMenuItem deletePathMode;
     
     //Menu items for help menu:
     private JMenuItem aboutAction;
@@ -58,7 +58,7 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     public static String imagePath = "Resources/purdue-map.jpg"; //Default map image location
     public static String filePath = ""; //Default xml location
     XML mapXML = new XML();
-    
+    int vertex_id = 0;
     double zoomValue = 20.00;
     public static double scale_feet_per_pixel;
     
@@ -340,19 +340,32 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 	    MouseAdapter listener = new MouseAdapter() {
 	    	public void mouseClicked(MouseEvent e)
 	        {
-	        	Point point = zoomPane.toViewCoordinates(e.getPoint());
-		        map.mouseClicked(point);
+	    		if(insertLocationMode.isSelected())
+	        	{
+		        	String name = JOptionPane.showInputDialog(null, "Name for this point?", "Add Point", JOptionPane.OK_CANCEL_OPTION);
+		        	if(name != null || name.equals(""))
+		        	{
+		        		Point point = zoomPane.toViewCoordinates(e.getPoint());
+		        		points.add(new Vertex(name, (vertex_id++), (int)point.getX(), (int)point.getY()));
+		        		map.mouseClicked();
+		        	}
+	        	}
 	        }
-	        public void mousePressed(MouseEvent e) {
-	          Point point = zoomPane.toViewCoordinates(e.getPoint());
-	          map.mousePressed(point);
-	        }
+	    	public void mousePressed(MouseEvent e) {
+	            Point point = zoomPane.toViewCoordinates(e.getPoint());
+	            map.mousePressed(point);
+	          }
 	      };
 
 	      MouseMotionAdapter motionListener = new MouseMotionAdapter() {
-	        public void mouseDragged(MouseEvent e) {
-	          Point point = zoomPane.toViewCoordinates(e.getPoint());
-	          map.mouseDragged(point);
+	        public void mouseDragged(MouseEvent e) 
+	        {
+	        	if(insertPathMode.isSelected())
+	    		{
+	        		Point point = zoomPane.toViewCoordinates(e.getPoint());
+	  	          map.mouseDragged(point);
+	    		}
+	          
 	        }
 	      };
 
