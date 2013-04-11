@@ -72,7 +72,7 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     {
     	if(insertLocationMode.isSelected()) //Using "Insert Location" mode
     	{
-    	
+    		System.out.println(me.getX() + ", " + me.getY());
     	}
     	else if(deleteLocationMode.isSelected()) //Using "Delete Location" mode
     	{
@@ -242,6 +242,7 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		setSize(PREFERRED_WIDTH, PREFERRED_HEIGHT);
 		setBackground(Color.gray);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 	
 		JPanel panel = new JPanel();
 		panel.setLayout( new BorderLayout()); 
@@ -320,6 +321,7 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 			Image image = new ImageIcon(imagePath).getImage();
 			map = new MapScene(image);
 			zoomPane = new ZoomPane(map);
+			zoomPane.addMouseListener(this);
 			getContentPane().add(zoomPane);
 		}
 	    
