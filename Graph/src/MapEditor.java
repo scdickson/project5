@@ -367,6 +367,37 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		        		map.mouseClicked();
 		        	}
 	        	}
+	    		else if(deleteLocationMode.isSelected())
+	    		{
+	    			Point point = zoomPane.toViewCoordinates(e.getPoint());
+	    			ArrayList<Path> toBeRemoved = new ArrayList<Path>();
+	    			
+	    			 for(Vertex v : points)
+			         {
+	    				 if(v.isThisMe(new Vertex(null, -1, point.x, point.y)))
+	    				 {
+	    				 
+	    					 for(Path p : paths)
+	    					 {
+	    						 if(p.getStart().equals(v) || p.getEnd().equals(v))
+	    						 {
+	    							 toBeRemoved.add(p);
+	    						 }
+	    					 }
+	    					 
+	    					 points.remove(v);
+	    					 break;
+	    				 }
+			         }
+	    			 
+	    			 for(Path condemned : toBeRemoved)
+	    			 {
+	    				 paths.remove(condemned);
+	    			 }
+	    			 toBeRemoved = null;
+	    			 map.mouseClicked();
+	    			 
+	    		}
 	        }
 	    	public void mousePressed(MouseEvent e) 
 	    	{
@@ -389,6 +420,7 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		            	if(v.isThisMe(new Vertex(null, -1, point.x, point.y)))
 		            	{
 		            		paths.add(new Path(v, null));
+		            		break;
 		            	}
 		            }
 		            map.mousePressed(point);
@@ -405,13 +437,14 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		            	if(v.isThisMe(new Vertex(null, -1, point.x, point.y)))
 		            	{
 		            		paths.get(paths.size() - 1).setEnd(v);
+		            		break;
 		            	}
 		            }
-		            
-
 		            map.mouseReleased();
 	    		}
 	        }
+	    	
+	    	 
 	      };
 
 	      MouseMotionAdapter motionListener = new MouseMotionAdapter() {
@@ -432,7 +465,6 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 	    		}
 	          
 	        }
-	        
 	        
 	      };
 
