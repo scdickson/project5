@@ -114,7 +114,7 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     		
     		JFileChooser fileChooser = new JFileChooser();
     		FileNameExtensionFilter filter = new FileNameExtensionFilter("Valid Map Images", "jpg", "gif");
-    		//fileChooser.addChoosableFileFilter(filter);
+    		fileChooser.addChoosableFileFilter(filter);
     		
     		fileChooser.setAcceptAllFileFilterUsed(false);
     		int result = fileChooser.showOpenDialog(this);
