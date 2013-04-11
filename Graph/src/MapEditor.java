@@ -407,6 +407,8 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		            		paths.get(paths.size() - 1).setEnd(v);
 		            	}
 		            }
+		            
+
 		            map.mouseReleased();
 	    		}
 	        }

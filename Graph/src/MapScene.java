@@ -82,6 +82,8 @@ public class MapScene implements Scene {
 
   public void mouseReleased()
   {
+	  _lineStart = null;
+	  _lineEnd = null;
 	  changeNotify();  
   }
   
