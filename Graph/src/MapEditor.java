@@ -53,8 +53,8 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 
     
     //Session variables
-    public ArrayList<Vertex> points;
-    private String filePath = "Resources/purdue-map.jpg"; //Default map location
+    public static ArrayList<Vertex> points;
+    private static String filePath = "Resources/purdue-map.jpgs"; //Default map location
     //XML mapXML = new XML();
     
     double zoomValue = 20.00;
