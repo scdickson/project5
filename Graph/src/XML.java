@@ -54,14 +54,6 @@ public class XML {
 					MapEditor.points.add(new Vertex(name, id , x, y));				
 				}
 			}
-			/* Prints all the vertices
-			for(Vertex temp : MapEditor.points){
-				System.out.println("ID: " + temp.id);
-				System.out.println("Name: " + temp.name);
-				System.out.println("X coord: " + temp.x);
-				System.out.println("Y coord: " + temp.y);
-			}
-			 */
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -81,12 +73,16 @@ public class XML {
 		}
 
 		out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		out.flush();
 		out.println("<mapfile bitmap=\""+image+"\" scale-feet-per-pixel=\""+fpp+"\">");
+		out.flush();
 		for(Vertex v : MapEditor.points){
 			out.println("<location id=\""+v.id+"\" name=\""+v.name+"\" x=\""+v.x+"\" y=\""+v.y+"\" />");
+			out.flush();
 		}
 		out.println("</mapfile>");
-	}
+		out.close();
+}
 
 }
 
