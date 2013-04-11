@@ -165,7 +165,7 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 			if(result == JFileChooser.APPROVE_OPTION)
 			{
 				filePath = fileChooser.getSelectedFile().getAbsolutePath();
-				//mapXML.openMap(filePath);
+				mapXML.openMap(filePath);
 				loadImage();
 			}
 			
@@ -174,12 +174,19 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     	{
     		if(filePath != null && imagePath != null)
     		{
-    			//mapXML.saveMap(filePath, imagePath, scale_feet_by_pixel);
+    			mapXML.saveMap(filePath, imagePath, scale_feet_per_pixel);
     		}
     	}
     	else if(evt.getSource().equals(saveAsAction)) //Save current XML with different name
     	{
+    		JFileChooser fileChooser = new JFileChooser();
+    		int result = fileChooser.showSaveDialog(this);
     		
+    		if(result == JFileChooser.APPROVE_OPTION)
+    		{
+    			filePath = fileChooser.getSelectedFile().getAbsolutePath();
+    			mapXML.saveMap(filePath, imagePath, scale_feet_per_pixel);
+    		}
     	}
     	
     	//Actions for map menu:
