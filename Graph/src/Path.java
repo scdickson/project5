@@ -3,11 +3,17 @@ public class Path
 {
 	private Vertex from;
 	private Vertex to;
+	private double path_weight;
 	
 	public Path(Vertex from, Vertex to)
 	{
 		this.from = from;
 		this.to = to;
+		
+		if(from != null && to != null)
+		{
+			path_weight = weight();
+		}
 	}
 	
 	public Vertex getStart()
@@ -23,16 +29,31 @@ public class Path
 	public void setStart(Vertex from)
 	{
 		this.from = from;
+		
+		if(from != null && to != null)
+		{
+			path_weight = weight();
+		}
 	}
 	
 	public void setEnd(Vertex to)
 	{
 		this.to = to;
+		
+		if(from != null && to != null)
+		{
+			path_weight = weight();
+		}
 	}
 	
 	public String toString()
 	{
-		return "Vertex: from=(" + from.toString() + "), to=(" + to.toString() + ")";
+		return "Vertex: from=(" + from.toString() + "), to=(" + to.toString() + "), distance=" + path_weight;
+	}
+	
+	private double weight()
+	{
+		return Math.sqrt(Math.pow((to.getX()-from.getX()), 2) + Math.pow((to.getY()-from.getY()), 2));
 	}
 
 }
