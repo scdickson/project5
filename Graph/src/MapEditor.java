@@ -56,6 +56,10 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 
     
     //Session variables
+    public ArrayList<Point> points;
+    private String filePath = "Resources/purdue-map.jpg";
+    //XML mapXML = new XML();
+    
     double zoomValue = 20.00;
     
     public static void main(String[] args) 
@@ -101,7 +105,58 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     	}
     	else if(evt.getSource().equals(newAction)) //Create new map
     	{
+    		String response = null;
+    		String tmpPath = filePath;
+    		filePath = null;
+    		double scale_feet_per_pixel = 0;
+    		boolean done = false;
     		
+    		while(!done)
+    		{
+    			filePath = JOptionPane.showInputDialog(null, "Enter a name for the new map: ", "New Map", JOptionPane.OK_CANCEL_OPTION); 
+    			if(filePath != null && !filePath.equals(""))
+    			{
+    				done = true;
+    			}
+    			else
+    			{
+    				JOptionPane.showMessageDialog(null, "Please enter a name for the map.", "Error", JOptionPane.ERROR_MESSAGE);
+    			}
+    		}
+    		
+    		done = false;
+    		if(filePath != null)
+    		{
+	    		while(!done)
+	    		{
+	    			response = JOptionPane.showInputDialog(null, "Enter the feet-per-pixel constant: ", "New Map", JOptionPane.OK_CANCEL_OPTION);
+	    			
+	    			if(response == null)
+	    			{
+	    				break;
+	    			}
+	    			
+	    			try
+	    			{
+	    				scale_feet_per_pixel = Double.parseDouble(response);
+	    				done = true;
+	    			}
+	    			catch(Exception e)
+	    			{
+	    				JOptionPane.showMessageDialog(null, "Invalid feet-per-pixel constant.", "Error", JOptionPane.ERROR_MESSAGE);
+	    			}
+	    		}
+    		}
+    		
+    		if(response != null && filePath != null)
+    		{
+    			//mapXML.newMap(filePath, scale_feet_per_pixel);
+    			JOptionPane.showMessageDialog(null, "New map successfully created!", "New Map", JOptionPane.PLAIN_MESSAGE);
+    		}
+    		else
+    		{
+    			filePath = tmpPath;
+    		}
     	}
     	else if(evt.getSource().equals(openAction)) //Open existing XML 
     	{
@@ -109,7 +164,14 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     	}
     	else if(evt.getSource().equals(saveAction)) //Save current XML
     	{
-    		
+    		if(filePath != null)
+    		{
+    			//mapXML.saveMap();
+    		}
+    		else
+    		{
+    			JOptionPane.showMessageDialog(null, "No map is loaded.", "Error", JOptionPane.ERROR_MESSAGE);
+    		}
     	}
     	else if(evt.getSource().equals(saveAsAction)) //Save current XML with different name
     	{
@@ -227,7 +289,7 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		menubar.add(helpMenu);
 		setJMenuBar(menubar);
 		
-		Image image = new ImageIcon("Resources/purdue-map.jpg").getImage();
+		Image image = new ImageIcon(filePath).getImage();
 		map = new MapScene(image);
 	    zoomPane = new ZoomPane(map);
 	    
