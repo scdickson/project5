@@ -1,7 +1,6 @@
 //Sam Dickson and Niraj Venkat
 //CS251 Project 5--Map Editor
 
-
 import javax.swing.*; 
 import javax.swing.event.*; 
 import javax.swing.text.*; 
@@ -18,8 +17,6 @@ import java.util.*;
 import java.io.*; 
 import java.applet.*; 
 import java.net.*;
-
-
 
 public class MapEditor extends JFrame implements ActionListener, MouseListener
 {
@@ -56,8 +53,8 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 
     
     //Session variables
-    public ArrayList<Point> points;
-    private String filePath = "Resources/purdue-map.jpg";
+    public ArrayList<Vertex> points;
+    private String filePath = "Resources/purdue-map.jpg"; //Default map location
     //XML mapXML = new XML();
     
     double zoomValue = 20.00;
@@ -211,6 +208,19 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     	}
     }
     
+    public boolean verifyFile(String fp)
+    {
+    	try
+    	{
+    		File tmp = new File(fp);
+    	}
+    	catch(Exception e)
+    	{
+    		return false;
+    	}
+    	return true;
+    }
+    
     public MapEditor() 
     {
 		setTitle("Map Editor");
@@ -292,8 +302,17 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		Image image = new ImageIcon(filePath).getImage();
 		map = new MapScene(image);
 	    zoomPane = new ZoomPane(map);
-	    
 	    getContentPane().add(zoomPane);
+	    
+	    if(verifyFile(filePath))
+	    {
+	    	//mapXML.openMap(filePath);
+	    }
+	    else
+	    {
+	    	JOptionPane.showMessageDialog(null, "Default map could not be loaded.", "Warning", JOptionPane.WARNING_MESSAGE);
+	    }
+	    
 	    
     }
     

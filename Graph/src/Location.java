@@ -11,10 +11,10 @@ public class Location {
                                             BasicStroke.JOIN_MITER, 
                                             3.0f, dash1, 0.0f);
 
-  private Point _point;
+  private Vertex _point;
   private boolean _selected;
 
-  public Location(Point point) {
+  public Location(Vertex point) {
     _point = point;
   }
 
@@ -37,7 +37,7 @@ public class Location {
   /**
    * Return true if this point is inside of this location.
    */
-  public boolean isThisYou(Point p) {
+  public boolean isThisYou(Vertex p) {
     int x = (int) _point.getX();
     int y = (int) _point.getY();
     int px = (int) p.getX();

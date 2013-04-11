@@ -1,13 +1,13 @@
 //Sam Dickson and Niraj Venkat
 
-public class Point 
+public class Vertex 
 {
 	private String name;
 	private int id;
 	private int x;
 	private int y;
 	
-	public Point(String name, int id, int x, int y)
+	public Vertex(String name, int id, int x, int y)
 	{
 		this.name = name;
 		this.id = id;

@@ -31,7 +31,7 @@ public class ZoomPane extends JScrollPane {
    * Converts a point in pixel coordinates on the screen to view coordinates on
    * the map.
    */
-  public Point toViewCoordinates(Point point) {
+  public Point toViewCoordinates(Vertex point) {
     double scale = _panel.getScale();
     int x = (int) (point.getX() / scale);
     int y = (int) (point.getY() / scale);
@@ -64,7 +64,7 @@ public class ZoomPane extends JScrollPane {
 
     // Calculate the new center of the viewport
     point.move((int) (point.getX() * relScale), (int) (point.getY() * relScale));
-
+    
     // Move back to top left
     point.translate(-halfW, -halfH);
 
