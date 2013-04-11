@@ -314,10 +314,14 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		menubar.add(helpMenu);
 		setJMenuBar(menubar);
 		
-		Image image = new ImageIcon(imagePath).getImage();
-		map = new MapScene(image);
-	    zoomPane = new ZoomPane(map);
-	    getContentPane().add(zoomPane);
+		if(verifyFile(filePath))
+		{
+			//mapXML.open(filePath);
+			Image image = new ImageIcon(imagePath).getImage();
+			map = new MapScene(image);
+			zoomPane = new ZoomPane(map);
+			getContentPane().add(zoomPane);
+		}
 	    
 	    
 	    
