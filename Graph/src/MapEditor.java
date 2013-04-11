@@ -32,6 +32,7 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     private JScrollPane scrollPane;
     private ZoomPane zoomPane;
     private MapScene map;
+    private JPopupMenu popup;
     
     //Menu items for file menu:
     private JMenuItem exitAction;
@@ -51,6 +52,11 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     //Menu items for help menu:
     private JMenuItem aboutAction;
     private JMenuItem helpAction;
+    
+    //Menu items for the right-click menu:
+    private JMenuItem info_rightClick;
+    private JMenuItem edit_rightClick;
+    private JMenuItem delete_rightClick;
 
     
     //Session variables
@@ -81,29 +87,24 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     //Handle events for mouse actions
     public void mouseClicked(MouseEvent me)
     {
-    	if(insertLocationMode.isSelected()) //Using "Insert Location" mode
+    	if (me.isPopupTrigger()) 
     	{
-    	}
-    	else if(deleteLocationMode.isSelected()) //Using "Delete Location" mode
-    	{
-    		
-    	}
-    	else if(insertPathMode.isSelected()) //Using "Insert Path" mode
-    	{
-    		map.mousePressed(new Point(me.getX(), me.getY()));
-    	}
-    	else if(deletePathMode.isSelected()) //Using "Delete Path" mode
-    	{
-    		
-    	}
+            popup.show(me.getComponent(), me.getX(), me.getY());
+        }
     }
     
     
     
     //Implemented methods from interface. Not used.
-    public void mouseReleased(MouseEvent me){}
+    public void mousePressed(MouseEvent me)
+    {
+    	if (me.isPopupTrigger()) 
+    	{
+            popup.show(me.getComponent(), me.getX(), me.getY());
+        }
+    }
     public void mouseEntered(MouseEvent me){}
-    public void mousePressed(MouseEvent me){}
+    public void mouseReleased(MouseEvent me){}
     public void mouseExited(MouseEvent me){}
     
     //Handle events for menu objects
@@ -273,6 +274,8 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		JMenu fileMenu = new JMenu("File");
 		JMenu mapMenu = new JMenu("Map");
 		JMenu helpMenu = new JMenu("Help");
+		popup = new JPopupMenu();
+		popup.addMouseListener(this);
 		
 		//Menu items for file menu:
 		exitAction = new JMenuItem("Exit");
@@ -330,9 +333,20 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		helpMenu.add(aboutAction);
 		helpMenu.add(helpAction);
 		
+		//Menu items for right-click menu:
+		info_rightClick = new JMenuItem("Info");
+		info_rightClick.addMouseListener(this);
+		edit_rightClick = new JMenuItem("Edit");
+		info_rightClick.addMouseListener(this);
+		delete_rightClick = new JMenuItem("Delete");
+		info_rightClick.addMouseListener(this);
+		
 		menubar.add(fileMenu);
 		menubar.add(mapMenu);
 		menubar.add(helpMenu);
+		popup.add(info_rightClick);
+		popup.add(edit_rightClick);
+		popup.add(delete_rightClick);
 		setJMenuBar(menubar);
 		
 		Image image = new ImageIcon(imagePath).getImage();
@@ -426,5 +440,6 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 	    getContentPane().add(zoomPane);
 
     }
+    
     
 };
