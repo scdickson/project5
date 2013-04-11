@@ -360,12 +360,13 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 	    		if(insertLocationMode.isSelected())
 	        	{
 		        	String name = JOptionPane.showInputDialog(null, "Name for this point?", "Add Point", JOptionPane.OK_CANCEL_OPTION);
-		        	if(name != null || name.equals(""))
+		        	if(name != null && !name.equals(""))
 		        	{
 		        		Point point = zoomPane.toViewCoordinates(e.getPoint());
 		        		points.add(new Vertex(name, (vertex_id++), (int)point.getX(), (int)point.getY()));
 		        		map.mouseClicked();
 		        	}
+		        	
 	        	}
 	    		else if(deleteLocationMode.isSelected())
 	    		{
