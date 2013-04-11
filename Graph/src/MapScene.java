@@ -17,7 +17,8 @@ public class MapScene implements Scene {
 
   private Point _lineStart;
   private Point _lineEnd;
-
+  private Point point;
+  private static final int SIZE = 20;
 
   public MapScene(Image image) {
     _image = image;
@@ -40,6 +41,7 @@ public class MapScene implements Scene {
   /**
    * This method will draw the entire map.
    */
+  
   public void draw(Graphics2D g) {
     // Draw the map image
     g.drawImage(_image, 0, 0, null);
@@ -50,8 +52,24 @@ public class MapScene implements Scene {
     if (_lineStart != null && _lineEnd != null) {
       g.drawLine(_lineStart.x, _lineStart.y, _lineEnd.x, _lineEnd.y);
     }
+    
+    if(point != null)
+    {
+    	g.setColor(Color.RED);
+        g.fillOval((int) point.getX() - SIZE/2, 
+                   (int) point.getY() - SIZE/2, 
+                   SIZE, SIZE);
+    }
+    
+    
   }
 
+  
+  public void mouseClicked(Point p)
+  {
+	  point = p;
+	  changeNotify();
+  }
 
   public void mousePressed(Point p) {
     // Mark the beginning of the line

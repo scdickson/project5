@@ -62,18 +62,25 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     double zoomValue = 20.00;
     public static double scale_feet_per_pixel;
     
+    //Temporary variables
+    Point p;
+    
     public static void main(String[] args) 
     { 
     	MapEditor mapEditor = new MapEditor(); 
     	mapEditor.setVisible(true);
     } 
 
+    /*public void paint(Graphics g)
+    {
+    	
+    }*/
+    
     //Handle events for mouse actions
     public void mouseClicked(MouseEvent me)
     {
     	if(insertLocationMode.isSelected()) //Using "Insert Location" mode
     	{
-    	
     	}
     	else if(deleteLocationMode.isSelected()) //Using "Delete Location" mode
     	{
@@ -81,13 +88,15 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     	}
     	else if(insertPathMode.isSelected()) //Using "Insert Path" mode
     	{
-    		
+    		map.mousePressed(new Point(me.getX(), me.getY()));
     	}
     	else if(deletePathMode.isSelected()) //Using "Delete Path" mode
     	{
     		
     	}
     }
+    
+    
     
     //Implemented methods from interface. Not used.
     public void mouseReleased(MouseEvent me){}
@@ -327,11 +336,31 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		Image image = new ImageIcon(imagePath).getImage();
 		map = new MapScene(image);
 	    zoomPane = new ZoomPane(map);
+	    
+	    MouseAdapter listener = new MouseAdapter() {
+	    	public void mouseClicked(MouseEvent e)
+	        {
+	        	Point point = zoomPane.toViewCoordinates(e.getPoint());
+		        map.mouseClicked(point);
+	        }
+	        public void mousePressed(MouseEvent e) {
+	          Point point = zoomPane.toViewCoordinates(e.getPoint());
+	          map.mousePressed(point);
+	        }
+	      };
+
+	      MouseMotionAdapter motionListener = new MouseMotionAdapter() {
+	        public void mouseDragged(MouseEvent e) {
+	          Point point = zoomPane.toViewCoordinates(e.getPoint());
+	          map.mouseDragged(point);
+	        }
+	      };
+
+	      zoomPane.getZoomPanel().addMouseListener(listener);
+	      zoomPane.getZoomPanel().addMouseMotionListener(motionListener);
+
 	    getContentPane().add(zoomPane);
-	    
-	    
-	    
+
     }
     
 };
-

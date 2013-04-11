@@ -11,10 +11,10 @@ public class Location {
                                             BasicStroke.JOIN_MITER, 
                                             3.0f, dash1, 0.0f);
 
-  private Vertex _point;
+  private Point _point;
   private boolean _selected;
 
-  public Location(Vertex point) {
+  public Location(Point point) {
     _point = point;
   }
 
