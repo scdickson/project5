@@ -1,3 +1,5 @@
+//Sam Dickson and Niraj Venkat
+
 public class Point 
 {
 	private String name;
