@@ -52,7 +52,7 @@ public class Vertex
 	
 	public String toString()
 	{
-		return "Vertex \"" + name + "\", x=" + x + ", y=" + y; 
+		return "Vertex \"" + name + "\", id=" + id + ", x=" + x + ", y=" + y; 
 	}
 	
 	public boolean isThisMe(Vertex p) 

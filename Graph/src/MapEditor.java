@@ -199,6 +199,7 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     			filePath = fileChooser.getSelectedFile().getAbsolutePath();
     			mapXML.saveMap(filePath, imagePath, scale_feet_per_pixel);
     		}
+    		
     	}
     	
     	//Actions for map menu:

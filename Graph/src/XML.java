@@ -42,6 +42,7 @@ public class XML {
 
 			doc.getDocumentElement().normalize();
 			NodeList nList = doc.getElementsByTagName("location");
+			NodeList pList = doc.getElementsByTagName("path");
 
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 				Node nNode = nList.item(temp);
@@ -54,6 +55,45 @@ public class XML {
 					MapEditor.points.add(new Vertex(name, id , x, y));				
 				}
 			}
+			
+			for (int temp = 0; temp < pList.getLength(); temp++) {
+				Node pNode = pList.item(temp);
+				if (pNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element pElement = (Element) pNode;
+					int idfrom = Integer.parseInt(pElement.getAttribute("idfrom"));
+					int idto = Integer.parseInt(pElement.getAttribute("idto"));
+					Path tmp = null;
+					
+					for(Vertex v : MapEditor.points)
+					{
+						if(v.getID() == idfrom)
+						{
+							if(tmp == null)
+							{
+								tmp = new Path(v, null);
+							}
+							else
+							{
+								tmp.setStart(v);
+							}
+						}
+						else if(v.getID() == idto)
+						{
+							if(tmp == null)
+							{
+								tmp = new Path(null, v);
+							}
+							else
+							{
+								tmp.setEnd(v);
+							}
+						}
+					}
+					
+					MapEditor.paths.add(tmp);				
+				}
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -78,6 +118,11 @@ public class XML {
 		out.flush();
 		for(Vertex v : MapEditor.points){
 			out.println("<location id=\""+v.id+"\" name=\""+v.name+"\" x=\""+v.x+"\" y=\""+v.y+"\" />");
+			out.flush();
+		}
+		for(Path p : MapEditor.paths)
+		{
+			out.println("<path idfrom=\"" + p.getStart().getID() + "\" idto=\"" + p.getEnd().getID() + "\" type=\"undirected\" />");
 			out.flush();
 		}
 		out.println("</mapfile>");
