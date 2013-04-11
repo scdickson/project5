@@ -10,11 +10,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class XML {
-	
+
 	public void setBitmap(String path){
 		File fXmlFile = new File(path);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		
+
 		DocumentBuilder dBuilder = null;
 		Document doc = null;
 		try{
@@ -30,7 +30,7 @@ public class XML {
 		Element eElement = (Element) nNode;
 		MapEditor.imagePath = eElement.getAttribute("bitmap");
 		MapEditor.scale_feet_per_pixel = Double.parseDouble(eElement.getAttribute("scale_feet_per_pixel"));
-		
+
 	}
 
 	public void openMap(String path){
@@ -82,7 +82,7 @@ public class XML {
 		}
 		out.println("</mapfile>");
 		out.close();
-}
+	}
 
 }
 
