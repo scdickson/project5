@@ -359,7 +359,7 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 	        {
 	    		if(insertLocationMode.isSelected())
 	        	{
-		        	String name = JOptionPane.showInputDialog(null, "Name for this point?", "Add Point", JOptionPane.OK_CANCEL_OPTION);
+		        	String name = JOptionPane.showInputDialog(null, "Name for this location?", "Add Location", JOptionPane.OK_CANCEL_OPTION);
 		        	if(name != null && !name.equals(""))
 		        	{
 		        		Point point = zoomPane.toViewCoordinates(e.getPoint());
