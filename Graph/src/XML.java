@@ -29,7 +29,7 @@ public class XML {
 		Node nNode = doc.getElementsByTagName("location").item(0);
 		Element eElement = (Element) nNode;
 		MapEditor.imagePath = eElement.getAttribute("bitmap");
-		MapEditor.scale_feet_per_pixel = Integer.parseInt(eElement.getAttribute("scale_feet_per_pixel"));
+		MapEditor.scale_feet_per_pixel = Double.parseDouble(eElement.getAttribute("scale_feet_per_pixel"));
 		
 	}
 
@@ -67,7 +67,7 @@ public class XML {
 		}
 	}
 
-	public void saveMap(String path, String image, int fpp){
+	public void saveMap(String path, String image, double fpp){
 		File f = new File(path);
 		if(f.exists()) f.delete();
 
@@ -81,6 +81,7 @@ public class XML {
 		}
 
 		out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+
 	}
 
 }
