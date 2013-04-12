@@ -72,7 +72,7 @@ public class MapEditor extends JFrame implements ActionListener
     
     //Temporary variables
     Point p;
-    Vertex rightClicked = new Vertex(null, -1, -1, -1);
+    Vertex rightClicked = null;
     
     public static void main(String[] args) 
     { 
@@ -224,6 +224,7 @@ public class MapEditor extends JFrame implements ActionListener
 			 }
 			 
 			 points.remove(rightClicked);
+			 rightClicked = null;
 			 toBeRemoved = null;
 			 map.mouseClicked();
     	}
@@ -370,10 +371,8 @@ public class MapEditor extends JFrame implements ActionListener
 	    			{
 	    				if(v.isThisMe(new Vertex(null, -1, point.x, point.y)))
 	    				{
-	    					rightClicked.setName(v.getName());
-	    					rightClicked.setID(v.getID());
-	    					rightClicked.setX(v.getX());
-	    					rightClicked.setY(v.getY());
+	    					rightClicked = v;
+	    					
 	    					okay = true;
 	    					break;
 	    				}
