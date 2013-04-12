@@ -19,7 +19,7 @@ import java.io.FileFilter;
 import java.applet.*; 
 import java.net.*;
 
-public class MapEditor extends JFrame implements ActionListener, MouseListener
+public class MapEditor extends JFrame implements ActionListener
 {
     //Constants
     public static final int PREFERRED_WIDTH = 680;
@@ -72,22 +72,13 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     
     //Temporary variables
     Point p;
+    Vertex rightClicked = new Vertex(null, -1, -1, -1);
     
     public static void main(String[] args) 
     { 
     	MapEditor mapEditor = new MapEditor(); 
     	mapEditor.setVisible(true);
     } 
-
-    
-    //Handle events for mouse actions
-    public void mouseClicked(MouseEvent me){}
-   
-    //Implemented methods from interface. Not used.
-    public void mousePressed(MouseEvent me){}
-    public void mouseEntered(MouseEvent me){}
-    public void mouseReleased(MouseEvent me){}
-    public void mouseExited(MouseEvent me){}
     
     //Handle events for menu objects
     public void actionPerformed(ActionEvent evt)
@@ -206,6 +197,37 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     		}
     	}
     	
+    	//Actions for right-click menu
+    	else if(evt.getSource().equals(info_rightClick))
+    	{
+    		
+    	}
+    	else if(evt.getSource().equals(edit_rightClick))
+    	{
+    		
+    	}
+    	else if(evt.getSource().equals(delete_rightClick))
+    	{
+			ArrayList<Path> toBeRemoved = new ArrayList<Path>();
+			 
+			 for(Path p : paths)
+			 {
+				 if(p.getStart().equals(rightClicked) || p.getEnd().equals(rightClicked))
+				 {
+					 toBeRemoved.add(p);
+				 }
+			 }
+			 
+			 for(Path condemned : toBeRemoved)
+			 {
+				 paths.remove(condemned);
+			 }
+			 
+			 points.remove(rightClicked);
+			 toBeRemoved = null;
+			 map.mouseClicked();
+    	}
+    	
     	//Actions for help menu:
     	else if(evt.getSource().equals(aboutAction)) //Display about dialog
     	{
@@ -258,7 +280,6 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		JMenu mapMenu = new JMenu("Map");
 		JMenu helpMenu = new JMenu("Help");
 		popup = new JPopupMenu();
-		popup.addMouseListener(this);
 		
 		//Menu items for file menu:
 		exitAction = new JMenuItem("Exit");
@@ -318,11 +339,11 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 		
 		//Menu items for right-click menu:
 		info_rightClick = new JMenuItem("Info");
-		info_rightClick.addMouseListener(this);
+		info_rightClick.addActionListener(this);
 		edit_rightClick = new JMenuItem("Edit");
-		info_rightClick.addMouseListener(this);
+		edit_rightClick.addActionListener(this);
 		delete_rightClick = new JMenuItem("Delete");
-		info_rightClick.addMouseListener(this);
+		delete_rightClick.addActionListener(this);
 		
 		menubar.add(fileMenu);
 		menubar.add(mapMenu);
@@ -349,7 +370,12 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 	    			{
 	    				if(v.isThisMe(new Vertex(null, -1, point.x, point.y)))
 	    				{
+	    					rightClicked.setName(v.getName());
+	    					rightClicked.setID(v.getID());
+	    					rightClicked.setX(v.getX());
+	    					rightClicked.setY(v.getY());
 	    					okay = true;
+	    					break;
 	    				}
 	    			}
 	    			
