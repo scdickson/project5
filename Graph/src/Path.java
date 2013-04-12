@@ -26,6 +26,11 @@ public class Path
 		return to;
 	}
 	
+	public double getWeight()
+	{
+		return path_weight;
+	}	
+	
 	public void setStart(Vertex from)
 	{
 		this.from = from;
