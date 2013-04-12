@@ -204,7 +204,19 @@ public class MapEditor extends JFrame implements ActionListener
     	}
     	else if(evt.getSource().equals(edit_rightClick))
     	{
-    		
+    		String newName = JOptionPane.showInputDialog(null, "New name for this location?", "Edit Location", JOptionPane.OK_CANCEL_OPTION);
+    		if(newName != null || newName.equals(" "))
+    		{
+    			for(Vertex v : points)
+    			{
+    				if(v.equals(rightClicked))
+    				{
+    					v.setName(newName);
+    					break;
+    				}
+    			}
+    			rightClicked = null;
+    		}
     	}
     	else if(evt.getSource().equals(delete_rightClick))
     	{
