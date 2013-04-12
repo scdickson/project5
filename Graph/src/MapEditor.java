@@ -200,7 +200,7 @@ public class MapEditor extends JFrame implements ActionListener
     	//Actions for right-click menu
     	else if(evt.getSource().equals(info_rightClick))
     	{
-    		
+    		JOptionPane.showMessageDialog(null, "ID: " + rightClicked.getID() + "\nName: " + rightClicked.getName() + "\nPoint: (" + rightClicked.getX() + "," + rightClicked.getY() + ")", "Location Information", JOptionPane.PLAIN_MESSAGE);
     	}
     	else if(evt.getSource().equals(edit_rightClick))
     	{
