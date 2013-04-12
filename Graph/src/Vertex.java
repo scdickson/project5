@@ -30,6 +30,11 @@ public class Vertex
 		this.y = y;
 	}
 	
+	public void setID(int id)
+	{
+		this.id = id;
+	}
+	
 	public int getX()
 	{
 		return x;
