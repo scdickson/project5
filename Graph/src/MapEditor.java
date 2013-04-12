@@ -79,30 +79,12 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
     	mapEditor.setVisible(true);
     } 
 
-    /*public void paint(Graphics g)
-    {
-    	
-    }*/
     
     //Handle events for mouse actions
-    public void mouseClicked(MouseEvent me)
-    {
-    	if (me.isPopupTrigger()) 
-    	{
-            popup.show(me.getComponent(), me.getX(), me.getY());
-        }
-    }
-    
-    
-    
+    public void mouseClicked(MouseEvent me){}
+   
     //Implemented methods from interface. Not used.
-    public void mousePressed(MouseEvent me)
-    {
-    	if (me.isPopupTrigger()) 
-    	{
-            popup.show(me.getComponent(), me.getX(), me.getY());
-        }
-    }
+    public void mousePressed(MouseEvent me){}
     public void mouseEntered(MouseEvent me){}
     public void mouseReleased(MouseEvent me){}
     public void mouseExited(MouseEvent me){}
@@ -358,47 +340,69 @@ public class MapEditor extends JFrame implements ActionListener, MouseListener
 	    MouseAdapter listener = new MouseAdapter() {
 	    	public void mouseClicked(MouseEvent e)
 	        {
-	    		if(insertLocationMode.isSelected())
-	        	{
-		        	String name = JOptionPane.showInputDialog(null, "Name for this location?", "Add Location", JOptionPane.OK_CANCEL_OPTION);
-		        	if(name != null && !name.equals(""))
-		        	{
-		        		Point point = zoomPane.toViewCoordinates(e.getPoint());
-		        		points.add(new Vertex(name, (vertex_id++), (int)point.getX(), (int)point.getY()));
-		        		map.mouseClicked();
-		        	}
-		        	
-	        	}
-	    		else if(deleteLocationMode.isSelected())
+	    		if(e.isMetaDown())
 	    		{
 	    			Point point = zoomPane.toViewCoordinates(e.getPoint());
-	    			ArrayList<Path> toBeRemoved = new ArrayList<Path>();
+	    			boolean okay = false;
 	    			
-	    			 for(Vertex v : points)
-			         {
-	    				 if(v.isThisMe(new Vertex(null, -1, point.x, point.y)))
-	    				 {
-	    				 
-	    					 for(Path p : paths)
-	    					 {
-	    						 if(p.getStart().equals(v) || p.getEnd().equals(v))
-	    						 {
-	    							 toBeRemoved.add(p);
-	    						 }
-	    					 }
-	    					 
-	    					 points.remove(v);
-	    					 break;
-	    				 }
-			         }
-	    			 
-	    			 for(Path condemned : toBeRemoved)
-	    			 {
-	    				 paths.remove(condemned);
-	    			 }
-	    			 toBeRemoved = null;
-	    			 map.mouseClicked();
-	    			 
+	    			for(Vertex v : points)
+	    			{
+	    				if(v.isThisMe(new Vertex(null, -1, point.x, point.y)))
+	    				{
+	    					okay = true;
+	    				}
+	    			}
+	    			
+	    			if(okay)
+	    			{
+	    				popup.show(e.getComponent(), e.getX(), e.getY());
+	    				okay = false;
+	    			}
+	    		}
+	    		else
+	    		{
+		    		if(insertLocationMode.isSelected())
+		        	{
+			        	String name = JOptionPane.showInputDialog(null, "Name for this location?", "Add Location", JOptionPane.OK_CANCEL_OPTION);
+			        	if(name != null && !name.equals(""))
+			        	{
+			        		Point point = zoomPane.toViewCoordinates(e.getPoint());
+			        		points.add(new Vertex(name, (vertex_id++), (int)point.getX(), (int)point.getY()));
+			        		map.mouseClicked();
+			        	}
+			        	
+		        	}
+		    		else if(deleteLocationMode.isSelected())
+		    		{
+		    			Point point = zoomPane.toViewCoordinates(e.getPoint());
+		    			ArrayList<Path> toBeRemoved = new ArrayList<Path>();
+		    			
+		    			 for(Vertex v : points)
+				         {
+		    				 if(v.isThisMe(new Vertex(null, -1, point.x, point.y)))
+		    				 {
+		    				 
+		    					 for(Path p : paths)
+		    					 {
+		    						 if(p.getStart().equals(v) || p.getEnd().equals(v))
+		    						 {
+		    							 toBeRemoved.add(p);
+		    						 }
+		    					 }
+		    					 
+		    					 points.remove(v);
+		    					 break;
+		    				 }
+				         }
+		    			 
+		    			 for(Path condemned : toBeRemoved)
+		    			 {
+		    				 paths.remove(condemned);
+		    			 }
+		    			 toBeRemoved = null;
+		    			 map.mouseClicked();
+		    			 
+		    		}
 	    		}
 	        }
 	    	public void mousePressed(MouseEvent e) 
