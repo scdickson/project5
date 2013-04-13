@@ -117,7 +117,7 @@ public class XML {
 		out.println("<mapfile bitmap=\""+image+"\" scale-feet-per-pixel=\""+fpp+"\">");
 		out.flush();
 		for(Vertex v : MapEditor.points){
-			out.println("<location id=\""+v.id+"\" name=\""+v.name+"\" x=\""+v.x+"\" y=\""+v.y+"\" />");
+			out.println("<location id=\""+v.getID()+"\" name=\""+v.getName()+"\" x=\""+v.getX()+"\" y=\""+v.getY()+"\" />");
 			out.flush();
 		}
 		for(Path p : MapEditor.paths)

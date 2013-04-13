@@ -2,10 +2,11 @@
 
 public class Vertex 
 {
-	public String name;
-	public int id;
-	public int x;
-	public int y;
+	private String name;
+	private int id;
+	private int x;
+	private int y;
+	private boolean visited;
 	
 	public Vertex(String name, int id, int x, int y)
 	{
@@ -13,6 +14,7 @@ public class Vertex
 		this.id = id;
 		this.x = x;
 		this.y = y;
+		this.visited = false;
 	}
 	
 	public void setName(String name)
@@ -53,6 +55,11 @@ public class Vertex
 	public String getName()
 	{
 		return name;
+	}
+	
+	public boolean getVisited()
+	{
+		return visited;
 	}
 	
 	public String toString()
