@@ -53,7 +53,7 @@ public class Path
 	
 	public String toString()
 	{
-		return "Vertex: from=(" + from.toString() + "), to=(" + to.toString() + "), distance=" + path_weight;
+		return "Path: from=(" + from.toString() + "), to=(" + to.toString() + "), distance=" + path_weight;
 	}
 	
 	private double weight()
