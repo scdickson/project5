@@ -55,36 +55,42 @@ public class MapScene implements Scene {
     	g.drawLine(_lineStart.x, _lineStart.y, _lineEnd.x, _lineEnd.y);
     }
     
-    for(Path p : MapEditor.paths)
+    if(MapEditor.displayPaths.isSelected())
     {
-    	if(p.getStart() != null && p.getEnd() != null)
-    	{
-    		if(p.isSelected)
-    		{
-    			g.setColor(Color.YELLOW);
-    		}
-    		else
-    		{
-    			g.setColor(Color.BLUE);
-    		}
-    		g.drawLine(p.getStart().getX(),p.getStart().getY(),p.getEnd().getX(),p.getEnd().getY());
-    		
-    	}
+	    for(Path p : MapEditor.paths)
+	    {
+	    	if(p.getStart() != null && p.getEnd() != null)
+	    	{
+	    		if(p.isSelected)
+	    		{
+	    			g.setColor(Color.YELLOW);
+	    		}
+	    		else
+	    		{
+	    			g.setColor(Color.BLUE);
+	    		}
+	    		g.drawLine(p.getStart().getX(),p.getStart().getY(),p.getEnd().getX(),p.getEnd().getY());
+	    		
+	    	}
+	    }
     }
     
     //Update points
-	for(Vertex v : MapEditor.points)
-	{
-		if(v.isSelected)
+    if(MapEditor.displayVertices.isSelected())
+    {
+		for(Vertex v : MapEditor.points)
 		{
-			g.setColor(Color.YELLOW);
+			if(v.isSelected)
+			{
+				g.setColor(Color.YELLOW);
+			}
+			else
+			{
+				g.setColor(Color.RED);
+			}
+		    g.fillOval((int) v.getX() - SIZE/2, (int) v.getY() - SIZE/2, SIZE, SIZE);
 		}
-		else
-		{
-			g.setColor(Color.RED);
-		}
-	    g.fillOval((int) v.getX() - SIZE/2, (int) v.getY() - SIZE/2, SIZE, SIZE);
-	}
+    }
     
     
   }

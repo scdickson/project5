@@ -51,6 +51,8 @@ public class MapEditor extends JFrame implements ActionListener
     public JRadioButtonMenuItem deleteLocationMode;
     public JRadioButtonMenuItem insertPathMode;
     public JRadioButtonMenuItem deletePathMode;
+    public static JCheckBox displayPaths;
+    public static JCheckBox displayVertices;
     
     //Menu items for help menu:
     private JMenuItem aboutAction;
@@ -215,6 +217,14 @@ public class MapEditor extends JFrame implements ActionListener
     			zoomOutAction.setEnabled(false);
     		}
     	}
+    	else if(evt.getSource().equals(displayVertices))
+    	{
+    		map.mouseMoved();
+    	}
+    	else if(evt.getSource().equals(displayPaths))
+    	{
+    		map.mouseMoved();
+    	}
     	
     	//Actions for right-click menu
     	else if(evt.getSource().equals(info_rightClick))
@@ -349,6 +359,12 @@ public class MapEditor extends JFrame implements ActionListener
 		deleteLocationMode = new JRadioButtonMenuItem("Delete Location Mode");
 		insertPathMode = new JRadioButtonMenuItem("Insert Path Mode");
 		deletePathMode = new JRadioButtonMenuItem("Delete Path Mode");
+		displayPaths = new JCheckBox("Display Paths");
+		displayPaths.setSelected(true);
+		displayPaths.addActionListener(this);
+		displayVertices = new JCheckBox("Display Locations");
+		displayVertices.setSelected(true);
+		displayVertices.addActionListener(this);
 		modeOptions.add(insertLocationMode);
 		modeOptions.add(deleteLocationMode);
 		modeOptions.add(insertPathMode);
@@ -361,6 +377,9 @@ public class MapEditor extends JFrame implements ActionListener
 		mapMenu.add(deleteLocationMode);
 		mapMenu.add(insertPathMode);
 		mapMenu.add(deletePathMode);
+		mapMenu.addSeparator();
+		mapMenu.add(displayPaths);
+		mapMenu.add(displayVertices);
 		
 		//Menu items for help menu:
 		aboutAction = new JMenuItem("About");
