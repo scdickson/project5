@@ -277,7 +277,26 @@ public class MapEditor extends JFrame implements ActionListener
     	}
     	else if(evt.getSource().equals(helpAction)) //Display help dialog
     	{
-    		JOptionPane.showMessageDialog(null, "Map Viewer Commands:\n\n", "Help", JOptionPane.PLAIN_MESSAGE);
+    		JOptionPane.showMessageDialog(null, "Map Viewer Commands:\n\n" +
+    				"-Insert Location Mode: In this mode, you will be able to insert locations in the map by clicking on the map." +
+    				"\nWhen you click on the map, a new location will be created without a name. In this mode you will also be able" +
+    				"\nto click and drag an existing location to change the position or to select the current location." +
+    				"\n\n-Location Properties: If you double-click on an existing position, a dialog will open that will show the" +
+    				"\nproperties of the location: name, x, y, and id. You will be able to change the name of the location in the dialog" +
+    				"\n\n-Delete Location Mode. In this mode you will be able to delete a location by clicking on top of the location." +
+    				"\nAll paths containing that location will be deleted." +
+    				"\n\n-Insert Path Mode. In this mode you will be able to insert a new path by clicking on a location and then dragging" +
+    				"and releasing the mouse in another location." +
+    				"\n\n-Delete Path Mode. In this mode you will be able to delete a path by clicking on top of the path." +
+    				"\n\n-Save.This will save the graph in a map database with the current name." +
+    				"\n\n-Save As. This will save the graph in a XML map file with a name different than the current name." +
+    				"\n\n-Open. This opens an exisiting XML map file." +
+    				"\n\n-New. This will clear the screen and prompt for two parameters:" +
+    				"\n---The name of the image file to be used." +
+    				"\n---The feet-per-pixel constant. This will be used by the Map Viewer to report the distance of a path." +
+
+    				"\n\n-Zoom In: Zooms in the map by increasing the size of the map. This option will keep the current center of the bitmap." +
+    				"\n-Zoom out. Zooms out the map.", "Help", JOptionPane.PLAIN_MESSAGE);
     	}
     }
     
@@ -316,7 +335,7 @@ public class MapEditor extends JFrame implements ActionListener
 		panel.setLayout( new BorderLayout()); 
 		getContentPane().add(panel);
 		
-		//Create and set up menubars:
+		//Create and set up menu bars:
 		JMenuBar menubar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
 		JMenu mapMenu = new JMenu("Map");
