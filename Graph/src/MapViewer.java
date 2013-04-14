@@ -130,10 +130,10 @@ public class MapViewer {
 		Vertex v4 = new Vertex("4", 4 , 238, 239);
 		MapEditor.points.add(v4);
 		MapEditor.paths.add(new Path(v1,v2));
-		//MapEditor.paths.add(new Path(v1,v3));
+		MapEditor.paths.add(new Path(v1,v3));
 		MapEditor.paths.add(new Path(v1,v4));
 		MapEditor.paths.add(new Path(v2,v3));
-		//MapEditor.paths.add(new Path(v2,v4));
+		MapEditor.paths.add(new Path(v2,v4));
 		MapEditor.paths.add(new Path(v3,v4));
 		
 	    MapViewer dijkstra = new MapViewer();
