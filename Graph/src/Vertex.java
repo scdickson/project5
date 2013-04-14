@@ -72,14 +72,10 @@ public class Vertex
 		return "Vertex \"" + name + "\", id=" + id + ", x=" + x + ", y=" + y; 
 	}
 
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		return true;
+	public boolean equals(Object obj) 
+	{
+		Vertex other = (Vertex) obj;
+		return ((other.getX() == this.getX()) && (other.getY() == this.getY()) && (other.getID() == this.getID()) && (other.getName().equals(this.getName())));
 	}
 
 	public boolean isThisMe(Vertex p) 
