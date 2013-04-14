@@ -58,7 +58,7 @@ public class Path
 	
 	private double weight()
 	{
-		return Math.sqrt(Math.pow((to.getX()-from.getX()), 2) + Math.pow((to.getY()-from.getY()), 2));
+		return (MapEditor.scale_feet_per_pixel * Math.sqrt(Math.pow((to.getX()-from.getX()), 2) + Math.pow((to.getY()-from.getY()), 2)));
 	}
 
 }
