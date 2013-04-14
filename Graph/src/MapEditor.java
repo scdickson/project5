@@ -623,6 +623,7 @@ public class MapEditor extends JFrame implements ActionListener
 			        	if(okay)
 			        	{
 			        		check.update();
+			        		map.mouseReleased();
 			        	}
 			        	else
 			        	{

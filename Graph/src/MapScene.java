@@ -65,6 +65,10 @@ public class MapScene implements Scene {
 	    		{
 	    			g.setColor(Color.YELLOW);
 	    		}
+	    		else if(p.getStart().beingModified || p.getEnd().beingModified)
+	    		{
+	    			g.setColor(Color.PINK);
+	    		}
 	    		else
 	    		{
 	    			g.setColor(Color.BLUE);
@@ -83,6 +87,10 @@ public class MapScene implements Scene {
 			if(v.isSelected)
 			{
 				g.setColor(Color.YELLOW);
+			}
+			else if(v.beingModified)
+			{
+				g.setColor(Color.PINK);
 			}
 			else
 			{
