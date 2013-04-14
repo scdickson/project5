@@ -189,20 +189,30 @@ public class MapEditor extends JFrame implements ActionListener
     	{
     		if(zoomValue < MAX_ZOOM)
     		{
+    			zoomOutAction.setEnabled(true);
     			double scale = (zoomValue + ZOOM_INCREMENT) / 20.0;
     			zoomValue+=ZOOM_INCREMENT;
     			zoomPane.zoom(scale);
     			zoomPane.repaint();
+    		}
+    		else
+    		{
+    			zoomInAction.setEnabled(false);
     		}
     	}
     	else if(evt.getSource().equals(zoomOutAction)) //Zoom out
     	{
     		if(zoomValue > MIN_ZOOM)
     		{
+    			zoomInAction.setEnabled(true);
     			double scale = (zoomValue - ZOOM_INCREMENT) / 20.0;
     			zoomValue-=ZOOM_INCREMENT;
     			zoomPane.zoom(scale);
     			zoomPane.repaint();
+    		}
+    		else
+    		{
+    			zoomOutAction.setEnabled(false);
     		}
     	}
     	
