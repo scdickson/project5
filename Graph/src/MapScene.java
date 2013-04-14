@@ -59,7 +59,16 @@ public class MapScene implements Scene {
     {
     	if(p.getStart() != null && p.getEnd() != null)
     	{
+    		if(p.isSelected)
+    		{
+    			g.setColor(Color.YELLOW);
+    		}
+    		else
+    		{
+    			g.setColor(Color.BLUE);
+    		}
     		g.drawLine(p.getStart().getX(),p.getStart().getY(),p.getEnd().getX(),p.getEnd().getY());
+    		
     	}
     }
     
@@ -74,6 +83,11 @@ public class MapScene implements Scene {
   }
 
 
+  public void mouseMoved()
+  {
+	  changeNotify(); 
+  }
+  
   public void mousePressed(Point p) {
     // Mark the beginning of the line
     _lineEnd = null;

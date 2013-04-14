@@ -12,6 +12,8 @@ import javax.imageio.ImageIO;
 
 import java.awt.*; 
 import java.awt.event.*; 
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.beans.*; 
 import java.util.*; 
 import java.io.*; 
@@ -27,6 +29,7 @@ public class MapEditor extends JFrame implements ActionListener
     public static final double MAX_ZOOM = 50.0;
     public static final double MIN_ZOOM = 11.0;
     public static final double ZOOM_INCREMENT = 3.0;
+    public static final int TOLERANCE = 10;
     
     //GUI components
     private JScrollPane scrollPane;
@@ -440,6 +443,22 @@ public class MapEditor extends JFrame implements ActionListener
 		    			 map.mouseClicked();
 		    			 
 		    		}
+		    		else if(deletePathMode.isSelected())
+		    		{
+		    			Path condemned = null;
+		    			for(Path p : paths)
+				        {
+		    				if(p.isSelected)
+		    				{
+		    					condemned = p;
+		    				}
+				        }
+		    			if(condemned != null)
+		    			{
+		    				paths.remove(condemned);
+		    				map.mouseClicked();
+		    			}
+		    		}
 	    		}
 	        }
 	    	public void mousePressed(MouseEvent e) 
@@ -513,7 +532,21 @@ public class MapEditor extends JFrame implements ActionListener
 	        {
 	        	if(deletePathMode.isSelected())
 	        	{
-	        		
+	        		Point point = zoomPane.toViewCoordinates(e.getPoint());
+	        		Rectangle2D.Double tolerance = new Rectangle2D.Double(point.x, point.y, TOLERANCE, TOLERANCE);
+	        		for(Path p : paths)
+	        		{
+	        			Line2D.Double bound = new Line2D.Double(p.getStart().getX(),p.getStart().getY(),p.getEnd().getX(),p.getEnd().getY());
+	        			if(bound.intersects(tolerance))
+	        			{
+	        				p.isSelected = true;
+	        			}
+	        			else
+	        			{
+	        				p.isSelected = false;
+	        			}
+	        		}
+	        		map.mouseMoved();
 	        	}
 	        }
 	        

@@ -1,18 +1,23 @@
+import java.awt.Rectangle;
+
 
 public class Path 
 {
 	private Vertex from;
 	private Vertex to;
 	private double path_weight;
+	boolean isSelected = false;
 	
 	public Path(Vertex from, Vertex to)
 	{
 		this.from = from;
 		this.to = to;
+		isSelected = false;
 		
 		if(from != null && to != null)
 		{
 			path_weight = weight();
+
 		}
 	}
 	
@@ -38,6 +43,7 @@ public class Path
 		if(from != null && to != null)
 		{
 			path_weight = weight();
+
 		}
 	}
 	
@@ -48,6 +54,7 @@ public class Path
 		if(from != null && to != null)
 		{
 			path_weight = weight();
+
 		}
 	}
 	
@@ -66,5 +73,7 @@ public class Path
 		Path other = (Path) obj;
 		return (((other.getEnd().equals(this.getEnd())) && (other.getStart().equals(this.getStart()))) || ((other.getEnd().equals(this.getStart())) && (other.getStart().equals(this.getEnd()))));
 	}
+	
+
 
 }
