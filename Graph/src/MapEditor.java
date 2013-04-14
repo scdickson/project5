@@ -598,14 +598,39 @@ public class MapEditor extends JFrame implements ActionListener
 	    		}
 	    		else if(insertLocationMode.isSelected())
 	    		{
+	    			Vertex check = null;
 	    			for(Vertex v : points)
 	        		{
 	        			if(v.beingModified == true)
 	        			{
+	        				check = v;
 	        				v.beingModified = false;
 	        			}
 	        		}
-	    			map.mouseReleased();
+	    			
+	    			if(check != null)
+	    			{
+			        	boolean okay = true;
+			        	for(Vertex v : points)
+			        	{
+			        		if(v.isThisMe(new Vertex(null, -1, check.getX(), check.getY())) && (!v.equals(check)))
+			        		{
+			        			okay = false;
+			        			break;
+			        		}
+			        	}
+
+			        	if(okay)
+			        	{
+			        		check.update();
+			        	}
+			        	else
+			        	{
+			        		check.reset();
+			        		map.mouseReleased();
+			        	}
+		    			
+	    			}
 	    		}
 	        }
 	    	
@@ -639,6 +664,7 @@ public class MapEditor extends JFrame implements ActionListener
 	        				v.setX(point.x);
 	        				v.setY(point.y);
 	        				map.mouseMoved();
+	        				break;
 	        			}
 	        		
 	        		}

@@ -6,6 +6,8 @@ public class Vertex
 	private int id;
 	private int x;
 	private int y;
+	private int prev_x;
+	private int prev_y;
 	private boolean visited;
 	boolean isSelected = false;
 	boolean beingModified = false;
@@ -16,6 +18,8 @@ public class Vertex
 		this.id = id;
 		this.x = x;
 		this.y = y;
+		this.prev_x = x;
+		this.prev_y = y;
 		this.visited = false;
 		this.isSelected = false;
 	}
@@ -88,6 +92,18 @@ public class Vertex
 		int radius = MapScene.SIZE/2;
 		return px > x - radius && px < x + radius && 
 				py > y - radius && py < y + radius;
+	}
+	
+	public void reset()
+	{
+		x = prev_x;
+		y = prev_y;
+	}
+	
+	public void update()
+	{
+		prev_x = x;
+		prev_y = y;
 	}
 
 }
