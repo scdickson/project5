@@ -138,12 +138,12 @@ public class MapViewer {
 		
 	    MapViewer dijkstra = new MapViewer();
 	    dijkstra.initiateDirections(MapEditor.points.get(0));
-	    LinkedList<Vertex> path1 = dijkstra.getDirections(MapEditor.points.get(1));
-	    LinkedList<Vertex> path2 = dijkstra.getDirections(MapEditor.points.get(2));
-	    LinkedList<Vertex> path3 = dijkstra.getDirections(MapEditor.points.get(3));
-	    System.out.println(path1);
-	    System.out.println(path2);
-	    System.out.println(path3);
+	    LinkedList<Vertex> bunch1 = dijkstra.getDirections(MapEditor.points.get(1));
+	    LinkedList<Vertex> bunch2 = dijkstra.getDirections(MapEditor.points.get(2));
+	    LinkedList<Vertex> bunch3 = dijkstra.getDirections(MapEditor.points.get(3));
+	    System.out.println(bunch1);
+	    System.out.println(bunch2);
+	    System.out.println(bunch3);
 
 	}
 
