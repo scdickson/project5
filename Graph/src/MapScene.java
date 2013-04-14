@@ -73,9 +73,16 @@ public class MapScene implements Scene {
     }
     
     //Update points
-    g.setColor(Color.RED);
 	for(Vertex v : MapEditor.points)
 	{
+		if(v.isSelected)
+		{
+			g.setColor(Color.YELLOW);
+		}
+		else
+		{
+			g.setColor(Color.RED);
+		}
 	    g.fillOval((int) v.getX() - SIZE/2, (int) v.getY() - SIZE/2, SIZE, SIZE);
 	}
     

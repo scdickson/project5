@@ -7,6 +7,7 @@ public class Vertex
 	private int x;
 	private int y;
 	private boolean visited;
+	boolean isSelected = false;
 
 	public Vertex(String name, int id, int x, int y)
 	{
@@ -15,6 +16,7 @@ public class Vertex
 		this.x = x;
 		this.y = y;
 		this.visited = false;
+		this.isSelected = false;
 	}
 
 	public void setName(String name)

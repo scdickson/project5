@@ -540,6 +540,7 @@ public class MapEditor extends JFrame implements ActionListener
 	        			if(bound.intersects(tolerance))
 	        			{
 	        				p.isSelected = true;
+	        				break;
 	        			}
 	        			else
 	        			{
@@ -548,6 +549,25 @@ public class MapEditor extends JFrame implements ActionListener
 	        		}
 	        		map.mouseMoved();
 	        	}
+	        	
+	        	if(deleteLocationMode.isSelected())
+	        	{
+	        		Point point = zoomPane.toViewCoordinates(e.getPoint());
+	        		for(Vertex v : points)
+	        		{
+	        			if(v.isThisMe(new Vertex(null, -1, point.x, point.y)))
+	        			{
+	        				v.isSelected = true;
+	        				break;
+	        			}
+	        			else
+	        			{
+	        				v.isSelected = false;
+	        			}
+	        		}
+	        		map.mouseMoved();
+	        	}
+	        	
 	        }
 	        
 	      };
