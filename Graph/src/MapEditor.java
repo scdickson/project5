@@ -420,13 +420,28 @@ public class MapEditor extends JFrame implements ActionListener
 	    		{
 		    		if(insertLocationMode.isSelected())
 		        	{
-			        	String name = JOptionPane.showInputDialog(null, "Name for this location?", "Add Location", JOptionPane.OK_CANCEL_OPTION);
-			        	if(name != null && !name.equals(""))
-			        	{
+			        	
 			        		Point point = zoomPane.toViewCoordinates(e.getPoint());
-			        		points.add(new Vertex(name, (vertex_id++), (int)point.getX(), (int)point.getY()));
-			        		map.mouseClicked();
-			        	}
+			        		boolean okay = true;
+			        		for(Vertex v : points)
+			        		{
+			        			if(v.isThisMe(new Vertex(null, -1, point.x, point.y)))
+			        			{
+			        				okay = false;
+			        				break;
+			        			}
+			        		}
+
+			        		if(okay)
+			        		{
+			        			String name = JOptionPane.showInputDialog(null, "Name for this location?", "Add Location", JOptionPane.OK_CANCEL_OPTION);
+					        	if(name != null && !name.equals(""))
+					        	{
+					        		points.add(new Vertex(name, (vertex_id++), (int)point.getX(), (int)point.getY()));
+			        				map.mouseClicked();
+					        	}
+			        		}
+			        	
 			        	
 		        	}
 		    		else if(deleteLocationMode.isSelected())
@@ -515,7 +530,14 @@ public class MapEditor extends JFrame implements ActionListener
 		            {
 		            	if(v.isThisMe(new Vertex(null, -1, point.x, point.y)))
 		            	{
-		            		paths.get(paths.size() - 1).setEnd(v);
+		            		if((paths.get(paths.size() - 1).getStart().getX() != point.x) && (paths.get(paths.size() - 1).getStart().getY() != point.y))
+		            		{
+		            			paths.get(paths.size() - 1).setEnd(v);
+		            		}
+		            		else
+		            		{
+		            			paths.remove(paths.size() - 1);
+		            		}
 		            		break;
 		            	}
 		            }
