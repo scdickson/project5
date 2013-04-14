@@ -45,6 +45,7 @@ public class MapEditor extends JFrame implements ActionListener
     private JMenuItem newAction;
     
     //Menu items for map menu:
+    private JMenu mapMenu;
     private JMenuItem zoomInAction;
     private JMenuItem zoomOutAction;
     public JRadioButtonMenuItem insertLocationMode;
@@ -220,10 +221,12 @@ public class MapEditor extends JFrame implements ActionListener
     	else if(evt.getSource().equals(displayVertices))
     	{
     		map.mouseMoved();
+    		MenuSelectionManager.defaultManager().clearSelectedPath();  
     	}
     	else if(evt.getSource().equals(displayPaths))
     	{
     		map.mouseMoved();
+    		MenuSelectionManager.defaultManager().clearSelectedPath();  
     	}
     	
     	//Actions for right-click menu
@@ -338,7 +341,7 @@ public class MapEditor extends JFrame implements ActionListener
 		//Create and set up menu bars:
 		JMenuBar menubar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
-		JMenu mapMenu = new JMenu("Map");
+		mapMenu = new JMenu("Map");
 		JMenu helpMenu = new JMenu("Help");
 		popup = new JPopupMenu();
 		
