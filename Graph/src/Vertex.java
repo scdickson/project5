@@ -8,6 +8,7 @@ public class Vertex
 	private int y;
 	private boolean visited;
 	boolean isSelected = false;
+	boolean beingModified = false;
 
 	public Vertex(String name, int id, int x, int y)
 	{

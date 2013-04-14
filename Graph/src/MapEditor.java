@@ -286,9 +286,9 @@ public class MapEditor extends JFrame implements ActionListener
     				"\n\n-Delete Location Mode. In this mode you will be able to delete a location by clicking on top of the location." +
     				"\nAll paths containing that location will be deleted." +
     				"\n\n-Insert Path Mode. In this mode you will be able to insert a new path by clicking on a location and then dragging" +
-    				"and releasing the mouse in another location." +
+    				"\nand releasing the mouse in another location." +
     				"\n\n-Delete Path Mode. In this mode you will be able to delete a path by clicking on top of the path." +
-    				"\n\n-Save.This will save the graph in a map database with the current name." +
+    				"\n\n-Save. This will save the graph in a map database with the current name." +
     				"\n\n-Save As. This will save the graph in a XML map file with a name different than the current name." +
     				"\n\n-Open. This opens an exisiting XML map file." +
     				"\n\n-New. This will clear the screen and prompt for two parameters:" +
@@ -557,6 +557,21 @@ public class MapEditor extends JFrame implements ActionListener
 		            }
 		            map.mousePressed(point);
 	    		}
+	    		if(insertLocationMode.isSelected())
+	    		{
+	    			Point point = zoomPane.toViewCoordinates(e.getPoint());
+	    			for(Vertex v : points)
+	    			{
+	    				if(v.isThisMe(new Vertex(null, -1, point.x, point.y)))
+		            	{
+		            		v.beingModified = true;
+		            	}
+	    				else
+	    				{
+	    					v.beingModified = false;
+	    				}
+	    			}
+	    		}
 	        }
 	    	
 	    	public void mouseReleased(MouseEvent e)
@@ -581,6 +596,17 @@ public class MapEditor extends JFrame implements ActionListener
 		            }
 		            map.mouseReleased();
 	    		}
+	    		else if(insertLocationMode.isSelected())
+	    		{
+	    			for(Vertex v : points)
+	        		{
+	        			if(v.beingModified == true)
+	        			{
+	        				v.beingModified = false;
+	        			}
+	        		}
+	    			map.mouseReleased();
+	    		}
 	        }
 	    	
 	    	 
@@ -602,6 +628,21 @@ public class MapEditor extends JFrame implements ActionListener
 	        		catch(Exception e2){}
 		            
 	    		}
+	        	else if(insertLocationMode.isSelected())
+	        	{
+	        		Point point = zoomPane.toViewCoordinates(e.getPoint());
+	        		
+	        		for(Vertex v : points)
+	        		{
+	        			if(v.beingModified == true)
+	        			{
+	        				v.setX(point.x);
+	        				v.setY(point.y);
+	        				map.mouseMoved();
+	        			}
+	        		
+	        		}
+	        	}
 	          
 	        }
 	        
