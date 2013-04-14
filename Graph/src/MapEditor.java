@@ -509,6 +509,14 @@ public class MapEditor extends JFrame implements ActionListener
 	          
 	        }
 	        
+	        public void mouseMoved(MouseEvent e)
+	        {
+	        	if(deletePathMode.isSelected())
+	        	{
+	        		
+	        	}
+	        }
+	        
 	      };
 
 	      zoomPane.getZoomPanel().addMouseListener(listener);
