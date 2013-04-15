@@ -517,39 +517,48 @@ public class MapEditor extends JFrame implements ActionListener
 			{
 				if(fromMenu.getSelectedIndex() != 0 && toMenu.getSelectedIndex() != 0)
 				{
-					Vertex from = points.get(fromMenu.getSelectedIndex() - 1);
-					Vertex to = points.get(toMenu.getSelectedIndex() - 1);
-					MapViewer dijkstra = new MapViewer();
-					dijkstra.initiateDirections(from);
-					LinkedList<Vertex> vertices = dijkstra.getDirections(to);
-					
-					Vertex prev = null;
-					
-					for(Vertex v : vertices)
+					Vertex from = null;
+					Vertex to = null;
+					try
 					{
+						from = points.get(fromMenu.getSelectedIndex() - 1);
+						to = points.get(toMenu.getSelectedIndex() - 1);
+						MapViewer dijkstra = new MapViewer();
+						dijkstra.initiateDirections(from);
+						LinkedList<Vertex> vertices = dijkstra.getDirections(to);
 						
-						if(prev == null)
+						Vertex prev = null;
+						
+						for(Vertex v : vertices)
 						{
-							prev = v;
-							continue;
-						}
-						
-							//Make path between v and prev green and also make v green
-							for(Path p : paths)
+							
+							if(prev == null)
 							{
-								if((p.getStart().equals(prev) && p.getEnd().equals(v)) || (p.getEnd().equals(prev) && p.getStart().equals(v)))
-								{
-									p.isDirectionEnabled = true;
-								}
-								
+								prev = v;
+								continue;
 							}
 							
-							prev = v;
+								//Make path between v and prev green and also make v green
+								for(Path p : paths)
+								{
+									if((p.getStart().equals(prev) && p.getEnd().equals(v)) || (p.getEnd().equals(prev) && p.getStart().equals(v)))
+									{
+										p.isDirectionEnabled = true;
+									}
+									
+								}
+								
+								prev = v;
+						}
+						
+						
+						handleClose();
+						map.mouseMoved();
 					}
-					
-					
-					handleClose();
-					map.mouseMoved();
+					catch(Exception e)
+					{
+						JOptionPane.showMessageDialog(null, "A path from \"" + from.getName() + "\" to \"" + to.getName() + "\" does not exist.", "Directions", JOptionPane.PLAIN_MESSAGE);
+					}
 				}
 			}
 		});
