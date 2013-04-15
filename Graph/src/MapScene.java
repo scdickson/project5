@@ -17,6 +17,9 @@ public class MapScene implements Scene {
 
   private Point _lineStart;
   private Point _lineEnd;
+  private double totalDistance;
+  public Point upperLeftScroll;
+  public boolean directions = false;
   public static final int SIZE = 20;
 
   public MapScene(Image image) {
@@ -49,6 +52,14 @@ public class MapScene implements Scene {
     g.setColor(Color.BLUE);
     g.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
     
+    if(directions)
+    {
+    	g.setColor(Color.BLACK);
+    	g.fillRect(upperLeftScroll.x,upperLeftScroll.y,MapEditor.PREFERRED_WIDTH,25);
+    	g.setColor(Color.WHITE);
+    	g.setFont(new Font("TimesRoman", Font.BOLD, 25));
+    	g.drawString("Total Distance: " + totalDistance + " feet", upperLeftScroll.x,upperLeftScroll.y+20);
+    }
     
     if (_lineStart != null && _lineEnd != null) 
     {
@@ -119,6 +130,13 @@ public class MapScene implements Scene {
   public void mouseMoved()
   {
 	  changeNotify(); 
+  }
+  
+  public void directionsCalculated(double totalDistance)
+  {
+	  this.totalDistance = totalDistance;
+	  directions = true;
+	  changeNotify();
   }
   
   public void mousePressed(Point p) {

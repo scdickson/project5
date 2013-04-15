@@ -3,6 +3,8 @@
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.geom.*;
 import java.awt.image.*;
 import java.util.*;
@@ -13,7 +15,7 @@ import java.util.*;
  */
 public class ZoomPane extends JScrollPane {
   private ZoomPanel _panel;
-
+  private MapScene map;
   public ZoomPane(Scene scene) {
     _panel = new ZoomPanel(scene);
     getViewport().add(_panel);
@@ -21,11 +23,31 @@ public class ZoomPane extends JScrollPane {
     // Java 1.5 has a terrible scroll increment default
     getVerticalScrollBar().setUnitIncrement(5);
     getHorizontalScrollBar().setUnitIncrement(5);
+    getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
+    	public void adjustmentValueChanged(AdjustmentEvent ae)
+    	{
+    		if(map.directions)
+    		{
+    			map.directions = false;
+    			map.mouseMoved();
+    		}
+    	}
+    });
   }
   
   public void setScene(Scene scene)
   {
 	  _panel.setScene(scene);
+  }
+  
+  public void setMap(MapScene map)
+  {
+	  this.map = map;
+  }
+  
+  public Point getUpperLeft()
+  {
+	  return new Point(getHorizontalScrollBar().getValue(),getVerticalScrollBar().getValue());
   }
   
   public ZoomPanel getZoomPanel() { return _panel; }
