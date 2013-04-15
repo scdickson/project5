@@ -14,7 +14,7 @@ public class MapViewer {
 		private Set<Vertex> settledNodes;
 		private Set<Vertex> unSettledNodes;
 		private Map<Vertex, Vertex> predecessors;
-		private Map<Vertex, Double> distance;
+		private Map<Vertex, Integer> distance;
 
 		public MapViewer() {
 			// Create a copy of the array so that we can operate on this array
@@ -25,9 +25,9 @@ public class MapViewer {
 		public void initiateDirections(Vertex source) {
 			settledNodes = new HashSet<Vertex>();
 			unSettledNodes = new HashSet<Vertex>();
-			distance = new HashMap<Vertex, Double>();
+			distance = new HashMap<Vertex, Integer>();
 			predecessors = new HashMap<Vertex, Vertex>();
-			distance.put(source, 0.0);
+			distance.put(source, 0);
 			unSettledNodes.add(source);
 			while (unSettledNodes.size() > 0) {
 				Vertex node = getMinimum(unSettledNodes);
@@ -51,14 +51,14 @@ public class MapViewer {
 
 		}
 
-		private double getDistance(Vertex node, Vertex target) {
+		private int getDistance(Vertex node, Vertex target) {
 			for (Path Path : edges) {
 				if (Path.getStart().equals(node)
 						&& Path.getEnd().equals(target)) {
 					return Path.getWeight();
 				}
 			}
-			throw new RuntimeException("Should not happen");
+			throw new RuntimeException("You done goofed son");
 		}
 
 		private List<Vertex> getNeighbors(Vertex node) {
@@ -90,8 +90,8 @@ public class MapViewer {
 			return settledNodes.contains(vertex);
 		}
 
-		private double getShortestDistance(Vertex destination) {
-			Double d = distance.get(destination);
+		private int getShortestDistance(Vertex destination) {
+			Integer d = distance.get(destination);
 			if (d == null) {
 				return Integer.MAX_VALUE;
 			} else {
@@ -124,14 +124,21 @@ public class MapViewer {
 		XML parser = new XML();
 		parser.openMap("Resources/dorms.xml");
 		
+		for(Vertex v : MapEditor.points){
+			System.out.println(v);
+		}
+		for(Path p : MapEditor.paths){
+			System.out.println(p);
+		}
+		
 	    MapViewer dijkstra = new MapViewer();
-	    dijkstra.initiateDirections(MapEditor.points.get(0));
-	    LinkedList<Vertex> bunch1 = dijkstra.getDirections(MapEditor.points.get(1));
-	    LinkedList<Vertex> bunch2 = dijkstra.getDirections(MapEditor.points.get(2));
-	    LinkedList<Vertex> bunch3 = dijkstra.getDirections(MapEditor.points.get(3));
+	    dijkstra.initiateDirections(MapEditor.points.get(15));
+	    LinkedList<Vertex> bunch1 = dijkstra.getDirections(MapEditor.points.get(12));
+	    //LinkedList<Vertex> bunch2 = dijkstra.getDirections(MapEditor.points.get(2));
+	    //LinkedList<Vertex> bunch3 = dijkstra.getDirections(MapEditor.points.get(3));
 	    System.out.println(bunch1);
-	    System.out.println(bunch2);
-	    System.out.println(bunch3);
+	    //System.out.println(bunch2);
+	    //System.out.println(bunch3);
 
 	}
 

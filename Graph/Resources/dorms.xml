@@ -26,7 +26,6 @@
 <path idfrom="1" idto="3" type="undirected" />
 <path idfrom="1" idto="2" type="undirected" />
 <path idfrom="0" idto="3" type="undirected" />
-<path idfrom="3" idto="3" type="undirected" />
 <path idfrom="4" idto="3" type="undirected" />
 <path idfrom="6" idto="7" type="undirected" />
 <path idfrom="7" idto="9" type="undirected" />
@@ -50,6 +49,4 @@
 <path idfrom="15" idto="20" type="undirected" />
 <path idfrom="20" idto="14" type="undirected" />
 <path idfrom="19" idto="1" type="undirected" />
-<path idfrom="2" idto="2" type="undirected" />
-<path idfrom="19" idto="19" type="undirected" />
 </mapfile>
