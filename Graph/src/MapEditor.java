@@ -91,7 +91,7 @@ public class MapEditor extends JFrame implements ActionListener
     XML mapXML = new XML();
     int vertex_id = 0;
     double zoomValue = 20.00;
-    public static double scale_feet_per_pixel;
+    public static double scale_feet_per_pixel = 1.0;
     
     //Temporary variables
     Point p;
