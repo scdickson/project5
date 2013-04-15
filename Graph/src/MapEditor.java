@@ -483,7 +483,7 @@ public class MapEditor extends JFrame implements ActionListener
 					MapViewer dijkstra = new MapViewer();
 					dijkstra.initiateDirections(points.get(fromMenu.getSelectedIndex() - 1));
 					LinkedList<Vertex> vertices = dijkstra.getDirections(points.get(toMenu.getSelectedIndex() - 1));
-					ArrayList<Path> selected = new ArrayList<Path>();
+					
 					Vertex prev = null;
 					
 					for(Vertex v : vertices)
@@ -598,6 +598,7 @@ public class MapEditor extends JFrame implements ActionListener
 		//Menu items for directions menu:
 		directionsMenu = new JMenu("Directions");
 		directionsAction = new JMenuItem("Get Directions");
+		directionsAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
 		mstAction = new JMenuItem("Calculate MST");
 		directionsMenu.add(directionsAction);
 		directionsAction.addActionListener(this);
@@ -814,6 +815,7 @@ public class MapEditor extends JFrame implements ActionListener
 		            		if((paths.get(paths.size() - 1).getStart().getX() != point.x) && (paths.get(paths.size() - 1).getStart().getY() != point.y))
 		            		{
 		            			paths.get(paths.size() - 1).setEnd(v);
+		            			paths.add(new Path(v, paths.get(paths.size() - 1).getStart())); //THIS ONE
 		            		}
 		            		else
 		            		{
