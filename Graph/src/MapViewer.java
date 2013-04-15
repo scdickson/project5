@@ -14,7 +14,7 @@ public class MapViewer {
 		private Set<Vertex> settledNodes;
 		private Set<Vertex> unSettledNodes;
 		private Map<Vertex, Vertex> predecessors;
-		private Map<Vertex, Integer> distance;
+		private Map<Vertex, Double> distance;
 
 		public MapViewer() {
 			// Create a copy of the array so that we can operate on this array
@@ -25,9 +25,9 @@ public class MapViewer {
 		public void initiateDirections(Vertex source) {
 			settledNodes = new HashSet<Vertex>();
 			unSettledNodes = new HashSet<Vertex>();
-			distance = new HashMap<Vertex, Integer>();
+			distance = new HashMap<Vertex, Double>();
 			predecessors = new HashMap<Vertex, Vertex>();
-			distance.put(source, 0);
+			distance.put(source, 0.0);
 			unSettledNodes.add(source);
 			while (unSettledNodes.size() > 0) {
 				Vertex node = getMinimum(unSettledNodes);
@@ -51,7 +51,7 @@ public class MapViewer {
 
 		}
 
-		private int getDistance(Vertex node, Vertex target) {
+		private double getDistance(Vertex node, Vertex target) {
 			for (Path Path : edges) {
 				if (Path.getStart().equals(node)
 						&& Path.getEnd().equals(target)) {
@@ -90,8 +90,8 @@ public class MapViewer {
 			return settledNodes.contains(vertex);
 		}
 
-		private int getShortestDistance(Vertex destination) {
-			Integer d = distance.get(destination);
+		private double getShortestDistance(Vertex destination) {
+			Double d = distance.get(destination);
 			if (d == null) {
 				return Integer.MAX_VALUE;
 			} else {
@@ -121,20 +121,8 @@ public class MapViewer {
 		}
 
 	public static void main(String [] args){
-		Vertex v1 = new Vertex("1", 1 , 233, 456);
-		MapEditor.points.add(v1);
-		Vertex v2 = new Vertex("2", 2 , 565, 876);
-		MapEditor.points.add(v2);
-		Vertex v3 = new Vertex("3", 3 , 876, 987);
-		MapEditor.points.add(v3);
-		Vertex v4 = new Vertex("4", 4 , 238, 239);
-		MapEditor.points.add(v4);
-		MapEditor.paths.add(new Path(v1,v2));
-		MapEditor.paths.add(new Path(v1,v3));
-		MapEditor.paths.add(new Path(v1,v4));
-		MapEditor.paths.add(new Path(v2,v3));
-		MapEditor.paths.add(new Path(v2,v4));
-		MapEditor.paths.add(new Path(v3,v4));
+		XML parser = new XML();
+		parser.openMap("Resources/dorms.xml");
 		
 	    MapViewer dijkstra = new MapViewer();
 	    dijkstra.initiateDirections(MapEditor.points.get(0));
