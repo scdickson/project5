@@ -57,8 +57,10 @@ public class MapScene implements Scene {
     
     if(MapEditor.displayPaths.isSelected())
     {
-	    for(Path p : MapEditor.paths)
-	    {
+	    //for(Path p : MapEditor.paths)
+	    for(int i = 0; i < MapEditor.paths.size(); i+=2)
+    	{
+	    	Path p = MapEditor.paths.get(i);
 	    	if(p.getStart() != null && p.getEnd() != null)
 	    	{
 	    		if(p.isSelected)
@@ -104,6 +106,7 @@ public class MapScene implements Scene {
 		    if(MapEditor.printNames.isSelected())
 		    {
 		    	g.setColor(Color.BLACK);
+		    	g.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		    	g.drawString(v.getName(), (int) v.getX()-(v.getName().length()/2 * SIZE/4)-5, (int) v.getY()-10);
 		    }
 		}

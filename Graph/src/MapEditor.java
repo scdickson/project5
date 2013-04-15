@@ -80,6 +80,7 @@ public class MapEditor extends JFrame implements ActionListener
     private JMenuItem connectAllVertices;
     private JMenuItem printPaths;
     private JMenuItem printVertices;
+    private JMenuItem clearMap;
     public static JCheckBox printNames;
     
     //Session variables
@@ -155,6 +156,7 @@ public class MapEditor extends JFrame implements ActionListener
     		
     		if(response != null && imagePath != null)
     		{
+    			clearMap();
     			loadImage();
     			//JOptionPane.showMessageDialog(null, "New map successfully created!", "New Map", JOptionPane.PLAIN_MESSAGE);
     		}
@@ -172,6 +174,7 @@ public class MapEditor extends JFrame implements ActionListener
 			
 			if(result == JFileChooser.APPROVE_OPTION)
 			{
+				clearMap();
 				filePath = fileChooser.getSelectedFile().getAbsolutePath();
 				mapXML.openMap(filePath);
 				loadImage();
@@ -335,6 +338,7 @@ public class MapEditor extends JFrame implements ActionListener
     				if(!other.equals(v))
     				{
     					Path tmp = new Path(v, other);
+    					Path tmp2 = new Path(other, v); //PSUEDO-UNDIRECTED
     					boolean okay = true;
     					
     					for(Path p : paths)
@@ -348,6 +352,7 @@ public class MapEditor extends JFrame implements ActionListener
     					if(okay)
     					{
     						paths.add(tmp);
+    						paths.add(tmp2);
     					}
     				}
     			}
@@ -356,21 +361,29 @@ public class MapEditor extends JFrame implements ActionListener
     	}
     	else if(evt.getSource().equals(printPaths))
     	{
+    		System.out.println("--Current Paths: " + System.currentTimeMillis() + "--");
     		for(Path p : paths)
     		{
     			System.out.println(p);
     		}
+    		System.out.println("-----------------------------------");
     	}
     	else if(evt.getSource().equals(printVertices))
     	{
+    		System.out.println("--Current Vertices: " + System.currentTimeMillis() + "--");
     		for(Vertex v : points)
     		{
     			System.out.println(v);
     		}
+    		System.out.println("-----------------------------------");
     	}
     	else if(evt.getSource().equals(printNames))
     	{
     		map.mouseMoved();
+    	}
+    	else if(evt.getSource().equals(clearMap))
+    	{
+    		clearMap();
     	}
     	//Actions for help menu:
     	else if(evt.getSource().equals(aboutAction)) //Display about dialog
@@ -414,6 +427,30 @@ public class MapEditor extends JFrame implements ActionListener
     	}
     	
     	return true;
+    }
+    
+    public void clearMap()
+    {
+    	ArrayList<Vertex> condemned_v = new ArrayList<Vertex>();
+    	ArrayList<Path> condemned_p = new ArrayList<Path>();
+    	for(Vertex v : points)
+    	{
+    		condemned_v.add(v);
+    	}
+    	for(Vertex v : condemned_v)
+    	{
+    		points.remove(v);
+    	}
+    	
+    	for(Path p : paths)
+    	{
+    		condemned_p.add(p);
+    	}
+    	for(Path p : condemned_p)
+    	{
+    		paths.remove(p);
+    	}
+		map.mouseMoved();
     }
     
     public void handleClose()
@@ -480,9 +517,11 @@ public class MapEditor extends JFrame implements ActionListener
 			{
 				if(fromMenu.getSelectedIndex() != 0 && toMenu.getSelectedIndex() != 0)
 				{
+					Vertex from = points.get(fromMenu.getSelectedIndex() - 1);
+					Vertex to = points.get(toMenu.getSelectedIndex() - 1);
 					MapViewer dijkstra = new MapViewer();
-					dijkstra.initiateDirections(points.get(fromMenu.getSelectedIndex() - 1));
-					LinkedList<Vertex> vertices = dijkstra.getDirections(points.get(toMenu.getSelectedIndex() - 1));
+					dijkstra.initiateDirections(from);
+					LinkedList<Vertex> vertices = dijkstra.getDirections(to);
 					
 					Vertex prev = null;
 					
@@ -498,7 +537,7 @@ public class MapEditor extends JFrame implements ActionListener
 							//Make path between v and prev green and also make v green
 							for(Path p : paths)
 							{
-								if(p.getStart().equals(prev) && p.getEnd().equals(v))
+								if((p.getStart().equals(prev) && p.getEnd().equals(v)) || (p.getEnd().equals(prev) && p.getStart().equals(v)))
 								{
 									p.isDirectionEnabled = true;
 								}
@@ -570,8 +609,10 @@ public class MapEditor extends JFrame implements ActionListener
 		zoomOutAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, ActionEvent.CTRL_MASK));
 		ButtonGroup modeOptions = new ButtonGroup();
 		insertLocationMode = new JRadioButtonMenuItem("Insert Location Mode");
+		insertLocationMode.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
 		deleteLocationMode = new JRadioButtonMenuItem("Delete Location Mode");
 		insertPathMode = new JRadioButtonMenuItem("Insert Path Mode");
+		insertPathMode.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
 		deletePathMode = new JRadioButtonMenuItem("Delete Path Mode");
 		displayPaths = new JCheckBox("Display Paths");
 		displayPaths.setSelected(true);
@@ -639,7 +680,11 @@ public class MapEditor extends JFrame implements ActionListener
 		printVertices = new JMenuItem("Print Vertices");
 		printVertices.addActionListener(this);
 		debugMenu.add(printVertices);
+		clearMap = new JMenuItem("Reset Map");
+		clearMap.addActionListener(this);
+		debugMenu.add(clearMap);
 		printNames = new JCheckBox("Display Location Names");
+		printNames.setSelected(true);
 		printNames.addActionListener(this);
 		debugMenu.add(printNames);
 		menubar.add(debugMenu);
@@ -743,17 +788,21 @@ public class MapEditor extends JFrame implements ActionListener
 		    		}
 		    		else if(deletePathMode.isSelected())
 		    		{
-		    			Path condemned = null;
-		    			for(Path p : paths)
+		    			Path[] condemned = new Path[2];
+		    			for(int i = 0; i < paths.size(); i++)
 				        {
+		    				Path p = paths.get(i);
 		    				if(p.isSelected)
 		    				{
-		    					condemned = p;
+		    					condemned[0] = p;
+		    					condemned[1] = paths.get(i+1);
+		    					break;
 		    				}
 				        }
-		    			if(condemned != null)
+		    			if(condemned[0] != null && condemned[1] != null)
 		    			{
-		    				paths.remove(condemned);
+		    				paths.remove(condemned[0]);
+		    				paths.remove(condemned[1]);
 		    				map.mouseClicked();
 		    			}
 		    		}
@@ -812,10 +861,32 @@ public class MapEditor extends JFrame implements ActionListener
 		            {
 		            	if(v.isThisMe(new Vertex(null, -1, point.x, point.y)))
 		            	{
-		            		if((paths.get(paths.size() - 1).getStart().getX() != point.x) && (paths.get(paths.size() - 1).getStart().getY() != point.y))
+		            		//Is the path to the same point (identity)?
+		            		if(!paths.get(paths.size() - 1).getStart().isThisMe(new Vertex(null, -1, point.x, point.y)))
 		            		{
-		            			paths.get(paths.size() - 1).setEnd(v);
-		            			paths.add(new Path(v, paths.get(paths.size() - 1).getStart())); //THIS ONE
+		            			//Does the past already exist?
+		            			boolean okay = true;
+		            			Path tmp = paths.get(paths.size() - 1);
+		            			tmp.setEnd(v);
+		            			
+		            			for(int i = 0; i < paths.size() - 1; i++)
+		            			{
+		            				if(paths.get(i).equals(tmp))
+		            				{
+		            					okay = false;
+		            					break;
+		            				}
+		            			}
+		            			
+		            			if(okay)
+		            			{
+			            			paths.get(paths.size() - 1).setEnd(v);
+			            			paths.add(new Path(v, paths.get(paths.size() - 1).getStart())); //THIS ALLOWS PATHS TO BE PSUEDO-UNDIRECTED.
+		            			}
+		            			else
+			            		{
+			            			paths.remove(paths.size() - 1);
+			            		}
 		            		}
 		            		else
 		            		{
@@ -909,8 +980,9 @@ public class MapEditor extends JFrame implements ActionListener
 	        	{
 	        		Point point = zoomPane.toViewCoordinates(e.getPoint());
 	        		Rectangle2D.Double tolerance = new Rectangle2D.Double(point.x, point.y, TOLERANCE, TOLERANCE);
-	        		for(Path p : paths)
+	        		for(int i = 0; i < paths.size(); i+=2)
 	        		{
+	        			Path p = paths.get(i);
 	        			Line2D.Double bound = new Line2D.Double(p.getStart().getX(),p.getStart().getY(),p.getEnd().getX(),p.getEnd().getY());
 	        			if(bound.intersects(tolerance))
 	        			{
