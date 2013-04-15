@@ -75,6 +75,13 @@ public class MapEditor extends JFrame implements ActionListener
     private JLabel fromLabel, toLabel;
     private JButton getDirections, directionsCancel;
     
+    //DEBUGGING MENU
+    private JMenu debugMenu;
+    private JMenuItem connectAllVertices;
+    private JMenuItem printPaths;
+    private JMenuItem printVertices;
+    public static JCheckBox printNames;
+    
     //Session variables
     public static ArrayList<Vertex> points = new ArrayList<Vertex>();
     public static ArrayList<Path> paths = new ArrayList<Path>();
@@ -318,7 +325,53 @@ public class MapEditor extends JFrame implements ActionListener
 			 toBeRemoved = null;
 			 map.mouseClicked();
     	}
-    	
+    	//DEBUGGING MENU
+    	else if(evt.getSource().equals(connectAllVertices))
+    	{
+    		for(Vertex v : points)
+    		{
+    			for(Vertex other : points)
+    			{
+    				if(!other.equals(v))
+    				{
+    					Path tmp = new Path(v, other);
+    					boolean okay = true;
+    					
+    					for(Path p : paths)
+    					{
+    						if(p.equals(tmp))
+    						{
+    							okay = false;
+    							break;
+    						}
+    					}
+    					if(okay)
+    					{
+    						paths.add(tmp);
+    					}
+    				}
+    			}
+    		}
+    		map.mouseMoved();
+    	}
+    	else if(evt.getSource().equals(printPaths))
+    	{
+    		for(Path p : paths)
+    		{
+    			System.out.println(p);
+    		}
+    	}
+    	else if(evt.getSource().equals(printVertices))
+    	{
+    		for(Vertex v : points)
+    		{
+    			System.out.println(v);
+    		}
+    	}
+    	else if(evt.getSource().equals(printNames))
+    	{
+    		map.mouseMoved();
+    	}
     	//Actions for help menu:
     	else if(evt.getSource().equals(aboutAction)) //Display about dialog
     	{
@@ -483,6 +536,7 @@ public class MapEditor extends JFrame implements ActionListener
 		    }
 		});
 		
+		
 		//Menu items for file menu:
 		exitAction = new JMenuItem("Exit");
 		exitAction.addActionListener(this);
@@ -566,10 +620,30 @@ public class MapEditor extends JFrame implements ActionListener
 		delete_rightClick = new JMenuItem("Delete");
 		delete_rightClick.addActionListener(this);
 		
+		
 		menubar.add(fileMenu);
 		menubar.add(mapMenu);
 		menubar.add(directionsMenu);
 		menubar.add(helpMenu);
+		
+		
+		//DEBUGGING MENU
+		debugMenu = new JMenu("Debug");
+		connectAllVertices = new JMenuItem("Connect All Vertices");
+		connectAllVertices.addActionListener(this);
+		debugMenu.add(connectAllVertices);
+		printPaths = new JMenuItem("Print Paths");
+		printPaths.addActionListener(this);
+		debugMenu.add(printPaths);
+		printVertices = new JMenuItem("Print Vertices");
+		printVertices.addActionListener(this);
+		debugMenu.add(printVertices);
+		printNames = new JCheckBox("Display Location Names");
+		printNames.addActionListener(this);
+		debugMenu.add(printNames);
+		menubar.add(debugMenu);
+				
+				
 		popup.add(info_rightClick);
 		popup.add(edit_rightClick);
 		popup.add(delete_rightClick);

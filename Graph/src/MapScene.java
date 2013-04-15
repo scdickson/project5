@@ -101,6 +101,11 @@ public class MapScene implements Scene {
 				g.setColor(Color.RED);
 			}
 		    g.fillOval((int) v.getX() - SIZE/2, (int) v.getY() - SIZE/2, SIZE, SIZE);
+		    if(MapEditor.printNames.isSelected())
+		    {
+		    	g.setColor(Color.BLACK);
+		    	g.drawString(v.getName(), (int) v.getX()-(v.getName().length()/2 * SIZE/4)-5, (int) v.getY()-10);
+		    }
 		}
     }
     
