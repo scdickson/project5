@@ -7,12 +7,14 @@ public class Path
 	private Vertex to;
 	private int path_weight;
 	boolean isSelected = false;
+	boolean isDirectionEnabled = false;
 	
 	public Path(Vertex from, Vertex to)
 	{
 		this.from = from;
 		this.to = to;
 		isSelected = false;
+		isDirectionEnabled = false;
 		
 		if(from != null && to != null)
 		{

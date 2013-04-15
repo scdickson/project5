@@ -65,6 +65,10 @@ public class MapScene implements Scene {
 	    		{
 	    			g.setColor(Color.YELLOW);
 	    		}
+	    		else if(p.isDirectionEnabled)
+	    		{
+	    			g.setColor(Color.GREEN);
+	    		}
 	    		else if(p.getStart().beingModified || p.getEnd().beingModified)
 	    		{
 	    			g.setColor(Color.PINK);

@@ -32,6 +32,7 @@ public class MapEditor extends JFrame implements ActionListener
     public static final int TOLERANCE = 10;
     
     //GUI components
+    private JFrame directionsFrame;
     private JScrollPane scrollPane;
     private ZoomPane zoomPane;
     private MapScene map;
@@ -55,6 +56,11 @@ public class MapEditor extends JFrame implements ActionListener
     public static JCheckBox displayPaths;
     public static JCheckBox displayVertices;
     
+    //Menu items for directions menu:
+    private JMenu directionsMenu;
+    private JMenuItem directionsAction;
+    private JMenuItem mstAction;
+    
     //Menu items for help menu:
     private JMenuItem aboutAction;
     private JMenuItem helpAction;
@@ -63,7 +69,11 @@ public class MapEditor extends JFrame implements ActionListener
     private JMenuItem info_rightClick;
     private JMenuItem edit_rightClick;
     private JMenuItem delete_rightClick;
-
+    
+    //Items for directions frame
+    private JComboBox fromMenu, toMenu;
+    private JLabel fromLabel, toLabel;
+    private JButton getDirections, directionsCancel;
     
     //Session variables
     public static ArrayList<Vertex> points = new ArrayList<Vertex>();
@@ -228,6 +238,42 @@ public class MapEditor extends JFrame implements ActionListener
     		map.mouseMoved();
     		MenuSelectionManager.defaultManager().clearSelectedPath();  
     	}
+    	//Actions for directions menu
+    	else if(evt.getSource().equals(directionsAction))
+    	{
+    		fromMenu.removeAllItems();
+    		toMenu.removeAllItems();
+    		fromMenu.addItem("-----");
+    		toMenu.addItem("-----");
+    		int max_size = 5;
+    		
+    		for(Vertex v : points)
+    		{
+    			fromMenu.addItem(v.getName());
+    			
+    			if(v.getName().length() > max_size)
+    			{
+    				max_size = v.getName().length();
+    			}
+    		}
+    		for(Vertex v : points)
+    		{
+    			toMenu.addItem(v.getName());
+    		}
+    		
+    		directionsFrame.setSize((295 + max_size),195);
+    		directionsFrame.setVisible(true);
+    		this.setEnabled(false);
+    		directionsFrame.toFront();
+    	}
+    	else if(evt.getSource().equals(mstAction))
+    	{
+    		
+    	}
+    	else if(evt.getSource().equals(directionsCancel))
+    	{
+    		handleClose();
+    	}
     	
     	//Actions for right-click menu
     	else if(evt.getSource().equals(info_rightClick))
@@ -317,6 +363,22 @@ public class MapEditor extends JFrame implements ActionListener
     	return true;
     }
     
+    public void handleClose()
+    {
+    	directionsFrame.setVisible(false);
+		this.setEnabled(true);
+		this.toFront();
+    }
+    
+    public void resetPaths()
+    {
+    	for(Path p : paths)
+		{
+			p.isDirectionEnabled = false;
+		}
+		map.mouseMoved();
+    }
+    
     public void loadImage()
     {
     	Image image = new ImageIcon(imagePath).getImage();
@@ -344,6 +406,82 @@ public class MapEditor extends JFrame implements ActionListener
 		mapMenu = new JMenu("Map");
 		JMenu helpMenu = new JMenu("Help");
 		popup = new JPopupMenu();
+		
+		//Directions Frame Setup
+		directionsFrame = new JFrame("Directions");
+		GridLayout frameLayout = new GridLayout(3,2);
+		JPanel toPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel fromPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		directionsFrame.setLayout(frameLayout);
+
+		fromMenu = new JComboBox();
+		toMenu = new JComboBox();
+		fromLabel = new JLabel("From: ");
+		toLabel = new JLabel  ("     To: ");
+		getDirections = new JButton("Get Directions");
+		directionsCancel = new JButton("Cancel");
+		directionsCancel.addActionListener(this);
+		getDirections.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent evt)
+			{
+				if(fromMenu.getSelectedIndex() != 0 && toMenu.getSelectedIndex() != 0)
+				{
+					MapViewer dijkstra = new MapViewer();
+					dijkstra.initiateDirections(points.get(fromMenu.getSelectedIndex() - 1));
+					LinkedList<Vertex> vertices = dijkstra.getDirections(points.get(toMenu.getSelectedIndex() - 1));
+					ArrayList<Path> selected = new ArrayList<Path>();
+					Vertex prev = null;
+					
+					for(Vertex v : vertices)
+					{
+						
+						if(prev == null)
+						{
+							prev = v;
+							continue;
+						}
+						
+							//Make path between v and prev green and also make v green
+							for(Path p : paths)
+							{
+								if(p.getStart().equals(prev) && p.getEnd().equals(v))
+								{
+									p.isDirectionEnabled = true;
+								}
+								
+							}
+							
+							prev = v;
+					}
+					
+					
+					handleClose();
+					map.mouseMoved();
+				}
+			}
+		});
+		getDirections.setIcon(new ImageIcon("Resources/directions.gif"));
+		directionsCancel.setIcon(new ImageIcon("Resources/cancel.gif"));
+		fromPanel.add(fromLabel);
+		fromPanel.add(fromMenu);
+		toPanel.add(toLabel);
+		toPanel.add(toMenu);
+		buttonPanel.add(getDirections);
+		buttonPanel.add(directionsCancel);
+		
+		directionsFrame.setSize(295,180);
+		directionsFrame.setResizable(false);
+		directionsFrame.add(fromPanel);
+		directionsFrame.add(toPanel);
+		directionsFrame.add(buttonPanel);
+		directionsFrame.setLocationRelativeTo(null); 
+		directionsFrame.addWindowListener(new WindowAdapter() {
+
+		    public void windowClosing(WindowEvent e) {
+		    	handleClose();
+		    }
+		});
 		
 		//Menu items for file menu:
 		exitAction = new JMenuItem("Exit");
@@ -403,6 +541,15 @@ public class MapEditor extends JFrame implements ActionListener
 		mapMenu.add(displayPaths);
 		mapMenu.add(displayVertices);
 		
+		//Menu items for directions menu:
+		directionsMenu = new JMenu("Directions");
+		directionsAction = new JMenuItem("Get Directions");
+		mstAction = new JMenuItem("Calculate MST");
+		directionsMenu.add(directionsAction);
+		directionsAction.addActionListener(this);
+		directionsMenu.add(mstAction);
+		mstAction.addActionListener(this);
+		
 		//Menu items for help menu:
 		aboutAction = new JMenuItem("About");
 		aboutAction.addActionListener(this);
@@ -421,11 +568,13 @@ public class MapEditor extends JFrame implements ActionListener
 		
 		menubar.add(fileMenu);
 		menubar.add(mapMenu);
+		menubar.add(directionsMenu);
 		menubar.add(helpMenu);
 		popup.add(info_rightClick);
 		popup.add(edit_rightClick);
 		popup.add(delete_rightClick);
 		setJMenuBar(menubar);
+		setLocationRelativeTo(null); 
 		
 		Image image = new ImageIcon(imagePath).getImage();
 		map = new MapScene(image);
@@ -433,8 +582,10 @@ public class MapEditor extends JFrame implements ActionListener
 	    
 	    
 	    MouseAdapter listener = new MouseAdapter() {
+	    	
 	    	public void mouseClicked(MouseEvent e)
 	        {
+	    		resetPaths();
 	    		if(e.isMetaDown())
 	    		{
 	    			Point point = zoomPane.toViewCoordinates(e.getPoint());
@@ -461,7 +612,6 @@ public class MapEditor extends JFrame implements ActionListener
 	    		{
 		    		if(insertLocationMode.isSelected())
 		        	{
-			        	
 			        		Point point = zoomPane.toViewCoordinates(e.getPoint());
 			        		boolean okay = true;
 			        		for(Vertex v : points)
@@ -536,6 +686,7 @@ public class MapEditor extends JFrame implements ActionListener
 	        }
 	    	public void mousePressed(MouseEvent e) 
 	    	{
+	    		resetPaths();
 	    		if(insertPathMode.isSelected())
 	    		{
 		            Point point = zoomPane.toViewCoordinates(e.getPoint());
