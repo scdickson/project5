@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapfile bitmap="Resources/purdue-map.jpg" scale-feet-per-pixel="0.0">
+<location id="0" name="owen" x="807" y="807" />
+<location id="1" name="ford" x="867" y="803" />
+<location id="2" name="cary" x="946" y="794" />
+<location id="3" name="tark" x="810" y="910" />
+<location id="4" name="wily" x="811" y="987" />
+<location id="5" name="meredith" x="683" y="1184" />
+<location id="6" name="vawter" x="820" y="1135" />
+<location id="7" name="warren" x="812" y="1179" />
+<location id="8" name="wood" x="769" y="1192" />
+<location id="9" name="shelly" x="812" y="1202" />
+<location id="10" name="duhme" x="806" y="1235" />
+<location id="11" name="earhart" x="601" y="1223" />
+<location id="12" name="shreve" x="599" y="1158" />
+<location id="13" name="hillenbrand" x="511" y="1169" />
+<location id="14" name="harrison" x="507" y="1273" />
+<location id="15" name="mccutcheon" x="449" y="1275" />
+<location id="16" name="1st central" x="623" y="1283" />
+<location id="17" name="1st east" x="669" y="1283" />
+<location id="18" name="1st west" x="575" y="1285" />
+<location id="19" name="hilltop" x="782" y="679" />
+<location id="20" name="pv" x="503" y="1394" />
+<path idfrom="19" idto="0" type="undirected" />
+<path idfrom="0" idto="1" type="undirected" />
+<path idfrom="1" idto="3" type="undirected" />
+<path idfrom="1" idto="2" type="undirected" />
+<path idfrom="0" idto="3" type="undirected" />
+<path idfrom="3" idto="3" type="undirected" />
+<path idfrom="4" idto="3" type="undirected" />
+<path idfrom="6" idto="7" type="undirected" />
+<path idfrom="7" idto="9" type="undirected" />
+<path idfrom="9" idto="10" type="undirected" />
+<path idfrom="9" idto="8" type="undirected" />
+<path idfrom="4" idto="6" type="undirected" />
+<path idfrom="8" idto="5" type="undirected" />
+<path idfrom="6" idto="5" type="undirected" />
+<path idfrom="10" idto="5" type="undirected" />
+<path idfrom="5" idto="12" type="undirected" />
+<path idfrom="5" idto="11" type="undirected" />
+<path idfrom="11" idto="17" type="undirected" />
+<path idfrom="17" idto="16" type="undirected" />
+<path idfrom="16" idto="18" type="undirected" />
+<path idfrom="11" idto="16" type="undirected" />
+<path idfrom="12" idto="13" type="undirected" />
+<path idfrom="18" idto="14" type="undirected" />
+<path idfrom="11" idto="14" type="undirected" />
+<path idfrom="13" idto="14" type="undirected" />
+<path idfrom="14" idto="15" type="undirected" />
+<path idfrom="15" idto="20" type="undirected" />
+<path idfrom="20" idto="14" type="undirected" />
+<path idfrom="19" idto="1" type="undirected" />
+<path idfrom="2" idto="2" type="undirected" />
+<path idfrom="19" idto="19" type="undirected" />
+</mapfile>
