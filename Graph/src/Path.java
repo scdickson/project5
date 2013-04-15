@@ -5,7 +5,7 @@ public class Path
 {
 	private Vertex from;
 	private Vertex to;
-	private double path_weight;
+	private int path_weight;
 	boolean isSelected = false;
 	
 	public Path(Vertex from, Vertex to)
@@ -31,7 +31,7 @@ public class Path
 		return to;
 	}
 	
-	public double getWeight()
+	public int getWeight()
 	{
 		return path_weight;
 	}	
@@ -63,9 +63,9 @@ public class Path
 		return "Path: from=(" + from.toString() + "), to=(" + to.toString() + "), distance=" + path_weight;
 	}
 	
-	private double weight()
+	private int weight()
 	{
-		return (MapEditor.scale_feet_per_pixel * Math.sqrt(Math.pow((to.getX()-from.getX()), 2) + Math.pow((to.getY()-from.getY()), 2)));
+		return (int)(MapEditor.scale_feet_per_pixel * Math.sqrt(Math.pow((to.getX()-from.getX()), 2) + Math.pow((to.getY()-from.getY()), 2)));
 	}
 	
 	public boolean equals(Object obj)
