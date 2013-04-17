@@ -120,6 +120,23 @@ public class MapViewer {
 			return path;
 		}
 
+		//Sort MapEditor.paths in ascending order. Uses a simple bubble sort.
+		public static void sortPaths()
+		{
+			for(int i = 0; i < MapEditor.paths.size(); i++)
+			{
+				for(int j = 1; j < (MapEditor.paths.size() - i); j++)
+				{
+					if(MapEditor.paths.get(j-1).getWeight() > MapEditor.paths.get(j).getWeight())
+					{
+						Path tmp = MapEditor.paths.get(j-1);
+						MapEditor.paths.set(j-1, MapEditor.paths.get(j));
+						MapEditor.paths.set(j, tmp);
+					}
+				}
+			}
+		}
+		
 	public static void main(String [] args){
 		XML parser = new XML();
 		parser.openMap("Resources/dorms.xml");

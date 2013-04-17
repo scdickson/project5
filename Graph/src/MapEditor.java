@@ -82,6 +82,7 @@ public class MapEditor extends JFrame implements ActionListener
     //DEBUGGING MENU
     private JMenu debugMenu;
     private JMenuItem connectAllVertices;
+    private JMenuItem sortPaths;
     private JMenuItem printPaths;
     private JMenuItem printVertices;
     private JMenuItem clearMap;
@@ -387,6 +388,10 @@ public class MapEditor extends JFrame implements ActionListener
     	else if(evt.getSource().equals(clearMap))
     	{
     		clearMap();
+    	}
+    	else if(evt.getSource().equals(sortPaths))
+    	{
+    		MapViewer.sortPaths();
     	}
     	//Actions for help menu:
     	else if(evt.getSource().equals(aboutAction)) //Display about dialog
@@ -764,6 +769,9 @@ public class MapEditor extends JFrame implements ActionListener
 		connectAllVertices = new JMenuItem("Connect All Vertices");
 		connectAllVertices.addActionListener(this);
 		debugMenu.add(connectAllVertices);
+		sortPaths = new JMenuItem("Sort Paths");
+		sortPaths.addActionListener(this);
+		debugMenu.add(sortPaths);
 		printPaths = new JMenuItem("Print Paths");
 		printPaths.addActionListener(this);
 		debugMenu.add(printPaths);
