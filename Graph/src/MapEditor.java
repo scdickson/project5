@@ -283,7 +283,13 @@ public class MapEditor extends JFrame implements ActionListener
     	}
     	else if(evt.getSource().equals(mstAction))
     	{
-    		
+    		MapViewer dj_quest = new MapViewer();
+    		TreeSet<Path> stree = dj_quest.MST();
+    		for(Path p : stree)
+    		{
+    			p.isMSTEnabled = true;
+    		}
+    		map.mouseMoved();
     	}
     	else if(evt.getSource().equals(directionsCancel))
     	{
@@ -738,6 +744,7 @@ public class MapEditor extends JFrame implements ActionListener
 		directionsAction = new JMenuItem("Get Directions");
 		directionsAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
 		mstAction = new JMenuItem("Calculate MST");
+		mstAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK));
 		directionsMenu.add(directionsAction);
 		directionsAction.addActionListener(this);
 		directionsMenu.add(mstAction);
@@ -783,7 +790,7 @@ public class MapEditor extends JFrame implements ActionListener
 		clearMap.addActionListener(this);
 		debugMenu.add(clearMap);
 		printNames = new JCheckBox("Display Location Names");
-		printNames.setSelected(true);
+		printNames.setSelected(false);
 		printNames.addActionListener(this);
 		debugMenu.add(printNames);
 		menubar.add(debugMenu);

@@ -18,13 +18,15 @@ public class MapViewer {
 	private Map<Vertex, Vertex> predecessors;
 	private Map<Vertex, Integer> distance;
 
-	Vector<HashSet<Vertex>> vertexGroups = new Vector<HashSet<Vertex>>();
-	TreeSet<Path> kruskalEdges = new TreeSet<Path>();
-
+	private Vector<HashSet<Vertex>> vertexGroups = new Vector<HashSet<Vertex>>();
+	private TreeSet<Path> kruskalEdges = new TreeSet<Path>();
+	private int MSTtotal;
+	
 	public MapViewer() {
 		// Create a copy of the array so that we can operate on this array
 		this.nodes = MapEditor.points;
 		this.edges = MapEditor.paths;
+		this.MSTtotal = 0;
 	}
 
 	public void initiateDirections(Vertex source) {
@@ -197,12 +199,11 @@ public class MapViewer {
 			insertEdge(edge);
 		}
 		
-		int total = 0;
 		for (Path edge : getEdges()) {
-            System.out.println(edge);
-            total += edge.getWeight();
+            //System.out.println(edge);
+            MSTtotal += edge.getWeight();
         }
-        System.out.println("Total weight is " + total);
+        //System.out.println("Total weight is " + total);
         
         return getEdges();
 	}

@@ -6,6 +6,7 @@ public class Path implements Comparable<Path>
 	private int path_weight;
 	boolean isSelected = false;
 	boolean isDirectionEnabled = false;
+	boolean isMSTEnabled = false;
 	
 	public Path(Vertex from, Vertex to)
 	{

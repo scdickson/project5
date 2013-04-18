@@ -86,6 +86,10 @@ public class MapScene implements Scene {
 	    		{
 	    			g.setColor(Color.PINK);
 	    		}
+	    		else if(p.isMSTEnabled)
+	    		{
+	    			g.setColor(Color.MAGENTA);
+	    		}
 	    		else
 	    		{
 	    			g.setColor(Color.BLUE);
