@@ -1,7 +1,5 @@
-import java.awt.Rectangle;
 
-
-public class Path 
+public class Path implements Comparable<Path> 
 {
 	private Vertex from;
 	private Vertex to;
@@ -64,6 +62,11 @@ public class Path
 	{
 		return ("Path: from=(" + from.toString() + "), to=(" + to.toString() + "), distance=" + path_weight);
 	}
+	
+	public int compareTo(Path edge){
+        //== is not compared so that duplicate values are not eliminated.
+        return (this.path_weight < edge.path_weight) ? -1: 1;
+    }
 	
 	private int weight()
 	{

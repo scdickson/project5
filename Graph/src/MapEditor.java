@@ -391,7 +391,8 @@ public class MapEditor extends JFrame implements ActionListener
     	}
     	else if(evt.getSource().equals(sortPaths))
     	{
-    		MapViewer.sortPaths();
+    		MapViewer holdup = new MapViewer();
+    		holdup.sortPaths();
     	}
     	//Actions for help menu:
     	else if(evt.getSource().equals(aboutAction)) //Display about dialog
