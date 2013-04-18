@@ -488,6 +488,7 @@ public class MapEditor extends JFrame implements ActionListener
     	for(Path p : paths)
 		{
 			p.isDirectionEnabled = false;
+			p.isMSTEnabled = false;
 			p.isSelected = false;
 		}
 		map.mouseMoved();
@@ -782,6 +783,7 @@ public class MapEditor extends JFrame implements ActionListener
 		debugMenu.add(sortPaths);
 		printPaths = new JMenuItem("Print Paths");
 		printPaths.addActionListener(this);
+		printPaths.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.CTRL_MASK));
 		debugMenu.add(printPaths);
 		printVertices = new JMenuItem("Print Vertices");
 		printVertices.addActionListener(this);
@@ -811,9 +813,9 @@ public class MapEditor extends JFrame implements ActionListener
 	    	
 	    	public void mouseClicked(MouseEvent e)
 	        {
-	    		resetPaths();
 	    		if(e.isMetaDown())
 	    		{
+	    			resetPaths();
 	    			Point point = zoomPane.toViewCoordinates(e.getPoint());
 	    			boolean okay = false;
 	    			
@@ -920,28 +922,28 @@ public class MapEditor extends JFrame implements ActionListener
 			    		{
 			    			Path[] condemned = new Path[2];
 			    			for(int i = 0; i < paths.size(); i++)
-					        {
-			    				Path p = paths.get(i);
-			    				if(p.isSelected)
+			    			{
+			    				if(paths.get(i).isSelected)
 			    				{
-			    					condemned[0] = p;
+			    					condemned[0] = paths.get(i);
 			    					condemned[1] = paths.get(i+1);
 			    					break;
 			    				}
-					        }
+			    			}
+			    			
 			    			if(condemned[0] != null && condemned[1] != null)
 			    			{
 			    				paths.remove(condemned[0]);
 			    				paths.remove(condemned[1]);
-			    				map.mouseClicked();
 			    			}
+			    			map.mouseClicked();
 			    		}
 	    			}
 	    		}
 	        }
 	    	public void mousePressed(MouseEvent e) 
 	    	{
-	    		resetPaths();
+	    		//resetPaths();
 	    		if(!e.isMetaDown())
 	    		{
 		    		if(insertPathMode.isSelected())

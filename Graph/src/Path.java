@@ -61,7 +61,7 @@ public class Path implements Comparable<Path>
 	
 	public String toString()
 	{
-		return ("Path: from=(" + from.toString() + "), to=(" + to.toString() + "), distance=" + path_weight);
+		return ("Path: from=(" + from.toString() + "), to=(" + to.toString() + "), distance=" + path_weight + ", selected=" + isSelected + ", Member of MST=" + isMSTEnabled + ", Member of Shortest Path=" + isDirectionEnabled);
 	}
 	
 	public int compareTo(Path edge){
