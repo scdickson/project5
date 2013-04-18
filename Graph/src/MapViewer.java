@@ -122,15 +122,15 @@ public class MapViewer {
 
 	public static void main(String [] args){
 		XML parser = new XML();
-		parser.openMap("Resources/dorms.xml");
-		
+		parser.openMap("Resources/campus.xml");
+		/*
 		for(Vertex v : MapEditor.points){
 			System.out.println(v);
 		}
 		for(Path p : MapEditor.paths){
 			System.out.println(p);
 		}
-		
+		*/
 	    MapViewer dijkstra = new MapViewer();
 	    dijkstra.initiateDirections(MapEditor.points.get(15));
 	    LinkedList<Vertex> bunch1 = dijkstra.getDirections(MapEditor.points.get(12));
