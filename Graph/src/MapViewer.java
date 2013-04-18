@@ -18,7 +18,7 @@ public class MapViewer {
 	private Map<Vertex, Vertex> predecessors;
 	private Map<Vertex, Integer> distance;
 
-	Vector<HashSet<String>> vertexGroups = new Vector<HashSet<String>>();
+	Vector<HashSet<Vertex>> vertexGroups = new Vector<HashSet<Vertex>>();
 	TreeSet<Path> kruskalEdges = new TreeSet<Path>();
 
 	public MapViewer() {
@@ -147,9 +147,9 @@ public class MapViewer {
 		return kruskalEdges;
 	}
 
-	HashSet<String> getVertexGroup(String vertex)
+	HashSet<Vertex> getVertexGroup(Vertex vertex)
 	{
-		for (HashSet<String> vertexGroup : vertexGroups) {
+		for (HashSet<Vertex> vertexGroup : vertexGroups) {
 			if (vertexGroup.contains(vertex)) {
 				return vertexGroup;
 			}
@@ -159,16 +159,16 @@ public class MapViewer {
 
 	public void insertEdge(Path edge)
 	{
-		String vertexA = edge.getStart().getName();
-		String vertexB = edge.getEnd().getName();
+		Vertex vertexA = edge.getStart();
+		Vertex vertexB = edge.getEnd();
 
-		HashSet<String> vertexGroupA = getVertexGroup(vertexA);
-		HashSet<String> vertexGroupB = getVertexGroup(vertexB);
+		HashSet<Vertex> vertexGroupA = getVertexGroup(vertexA);
+		HashSet<Vertex> vertexGroupB = getVertexGroup(vertexB);
 
 		if (vertexGroupA == null) {
 			kruskalEdges.add(edge);
 			if (vertexGroupB == null) {
-				HashSet<String> htNewVertexGroup = new HashSet<String>();
+				HashSet<Vertex> htNewVertexGroup = new HashSet<Vertex>();
 				htNewVertexGroup.add(vertexA);
 				htNewVertexGroup.add(vertexB);
 				vertexGroups.add(htNewVertexGroup);
