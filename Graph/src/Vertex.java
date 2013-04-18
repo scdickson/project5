@@ -1,4 +1,3 @@
-//Sam Dickson and Niraj Venkat
 
 public class Vertex 
 {
