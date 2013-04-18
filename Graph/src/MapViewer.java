@@ -190,7 +190,7 @@ public class MapViewer {
 		}
 	}
 
-	public void MST(){
+	public TreeSet<Path> MST(){
 		sortPaths();
 
 		for (Path edge : MapEditor.paths) {
@@ -203,6 +203,8 @@ public class MapViewer {
             total += edge.getWeight();
         }
         System.out.println("Total weight is " + total);
+        
+        return getEdges();
 	}
 
 	public static void main(String [] args){
