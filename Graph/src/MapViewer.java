@@ -148,6 +148,11 @@ public class MapViewer {
 	{
 		return kruskalEdges;
 	}
+	
+	public int getMSTLength()
+	{
+		return MSTtotal;
+	}
 
 	HashSet<Vertex> getVertexGroup(Vertex vertex)
 	{

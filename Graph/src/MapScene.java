@@ -20,6 +20,7 @@ public class MapScene implements Scene {
   private double totalDistance;
   public Point upperLeftScroll;
   public boolean directions = false;
+  public boolean mst = false;
   public static final int SIZE = 20;
 
   public MapScene(Image image) {
@@ -59,6 +60,14 @@ public class MapScene implements Scene {
     	g.setColor(Color.WHITE);
     	g.setFont(new Font("TimesRoman", Font.BOLD, 25));
     	g.drawString("Total Distance: " + totalDistance + " feet", upperLeftScroll.x,upperLeftScroll.y+20);
+    }
+    if(mst)
+    {
+    	g.setColor(Color.BLACK);
+    	g.fillRect(upperLeftScroll.x,upperLeftScroll.y,MapEditor.PREFERRED_WIDTH,25);
+    	g.setColor(Color.WHITE);
+    	g.setFont(new Font("TimesRoman", Font.BOLD, 25));
+    	g.drawString("Total Distance of MST: " + totalDistance + " feet", upperLeftScroll.x,upperLeftScroll.y+20);
     }
     
     if (_lineStart != null && _lineEnd != null) 
@@ -140,6 +149,13 @@ public class MapScene implements Scene {
   {
 	  this.totalDistance = totalDistance;
 	  directions = true;
+	  changeNotify();
+  }
+  
+  public void mstCalculated(double totalDistance)
+  {
+	  this.totalDistance = totalDistance;
+	  mst = true;
 	  changeNotify();
   }
   

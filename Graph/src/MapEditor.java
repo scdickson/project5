@@ -289,6 +289,8 @@ public class MapEditor extends JFrame implements ActionListener
     		{
     			p.isMSTEnabled = true;
     		}
+    		map.upperLeftScroll = zoomPane.getUpperLeft();
+    		map.mstCalculated(dj_quest.getMSTLength());
     		map.mouseMoved();
     	}
     	else if(evt.getSource().equals(directionsCancel))
@@ -1103,6 +1105,13 @@ public class MapEditor extends JFrame implements ActionListener
 		        			{
 		        				v.setX(point.x);
 		        				v.setY(point.y);
+		        				for(Path p : paths)
+		        				{
+		        					if(p.getStart().equals(v) || p.getEnd().equals(v))
+		        					{
+		        						p.recalculateWeight();
+		        					}
+		        				}
 		        				map.mouseMoved();
 		        				break;
 		        			}

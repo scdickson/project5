@@ -74,6 +74,11 @@ public class Path implements Comparable<Path>
 		return (int)(MapEditor.scale_feet_per_pixel * Math.sqrt(Math.pow((to.getX()-from.getX()), 2) + Math.pow((to.getY()-from.getY()), 2)));
 	}
 	
+	public void recalculateWeight()
+	{
+		path_weight = weight();
+	}
+	
 	public boolean equals(Object obj)
 	{
 		Path other = (Path) obj;
