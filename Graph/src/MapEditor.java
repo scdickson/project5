@@ -256,6 +256,7 @@ public class MapEditor extends JFrame implements ActionListener
     	//Actions for directions menu
     	else if(evt.getSource().equals(directionsAction))
     	{
+    		resetPaths();
     		fromMenu.removeAllItems();
     		toMenu.removeAllItems();
     		fromMenu.addItem("-----");
@@ -493,6 +494,8 @@ public class MapEditor extends JFrame implements ActionListener
 			p.isMSTEnabled = false;
 			p.isSelected = false;
 		}
+		map.directions = false;
+		map.mst = false;
 		map.mouseMoved();
     }
     
