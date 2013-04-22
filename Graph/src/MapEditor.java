@@ -92,7 +92,8 @@ public class MapEditor extends JFrame implements ActionListener
     public static ArrayList<Vertex> points = new ArrayList<Vertex>();
     public static ArrayList<Path> paths = new ArrayList<Path>();
     
-    public static String imagePath = "Resources/purdue-map.jpg"; //Default map image location
+    public static String dir = "Resources/"; //Default folder
+    public static String imagePath = "purdue-map.jpg"; //Default map image location
     public static String filePath = ""; //Default xml location
     XML mapXML = new XML();
     int vertex_id = 0;
@@ -121,6 +122,7 @@ public class MapEditor extends JFrame implements ActionListener
     	{
     		String response = null;
     		String tmpPath = imagePath;
+    		String tmpDir = dir;
     		imagePath = null;
     		double tmp_scale_feet_per_pixel = scale_feet_per_pixel;
     		scale_feet_per_pixel = 0.0;
@@ -132,7 +134,8 @@ public class MapEditor extends JFrame implements ActionListener
     			
     		if(result == JFileChooser.APPROVE_OPTION)
     		{
-    			 imagePath = fileChooser.getSelectedFile().getAbsolutePath();
+    			 imagePath = fileChooser.getSelectedFile().getName();
+    			 dir = fileChooser.getCurrentDirectory().getAbsolutePath();
 
 	    		done = false;
 	    		if(imagePath != null)
@@ -169,6 +172,7 @@ public class MapEditor extends JFrame implements ActionListener
     		{
     			imagePath = tmpPath;
     			scale_feet_per_pixel = tmp_scale_feet_per_pixel;
+    			dir = tmpDir;
     		}
     	}
     	else if(evt.getSource().equals(openAction)) //Open existing XML 
@@ -180,8 +184,10 @@ public class MapEditor extends JFrame implements ActionListener
 			if(result == JFileChooser.APPROVE_OPTION)
 			{
 				clearMap();
+				dir = fileChooser.getCurrentDirectory().getAbsolutePath();
 				filePath = fileChooser.getSelectedFile().getAbsolutePath();
 				mapXML.openMap(filePath);
+				//mapXML.setBitmap(filePath);
 				loadImage();
 				saveAction.setEnabled(true);
 			}
@@ -501,7 +507,15 @@ public class MapEditor extends JFrame implements ActionListener
     
     public void loadImage()
     {
-    	Image image = new ImageIcon(imagePath).getImage();
+    	Image image = null;
+    	if(dir.contains("/"))
+    	{
+    		image = new ImageIcon(dir + "/" + imagePath).getImage();
+    	}
+    	else
+    	{
+    		image = new ImageIcon(dir + "\\" + imagePath).getImage();
+    	}
     	getContentPane().remove(zoomPane);
 		map.setImage(image);
 	    zoomPane.setScene(map);
@@ -808,7 +822,15 @@ public class MapEditor extends JFrame implements ActionListener
 		setJMenuBar(menubar);
 		setLocationRelativeTo(null); 
 		
-		Image image = new ImageIcon(imagePath).getImage();
+		Image image = null;
+    	if(dir.contains("/"))
+    	{
+    		image = new ImageIcon(dir + "/" + imagePath).getImage();
+    	}
+    	else
+    	{
+    		image = new ImageIcon(dir + "\\" + imagePath).getImage();
+    	}
 		map = new MapScene(image);
 	    zoomPane = new ZoomPane(map);
 	    zoomPane.setMap(map);

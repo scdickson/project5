@@ -28,6 +28,7 @@ public class XML {
 		doc.getDocumentElement().normalize();
 		Node nNode = doc.getElementsByTagName("location").item(0);
 		Element eElement = (Element) nNode;
+		System.out.println(eElement.getAttribute("bitmap"));
 		MapEditor.imagePath = eElement.getAttribute("bitmap");
 		MapEditor.scale_feet_per_pixel = Double.parseDouble(eElement.getAttribute("scale_feet_per_pixel"));
 
@@ -41,6 +42,13 @@ public class XML {
 			Document doc = dBuilder.parse(fXmlFile);
 
 			doc.getDocumentElement().normalize();
+
+			Node tNode = doc.getElementsByTagName("mapfile").item(0);
+			Element tElement = (Element) tNode;
+			MapEditor.imagePath = tElement.getAttribute("bitmap");
+			MapEditor.scale_feet_per_pixel = Double.parseDouble(tElement.getAttribute("scale-feet-per-pixel"));
+			
+			
 			NodeList nList = doc.getElementsByTagName("location");
 			NodeList pList = doc.getElementsByTagName("path");
 
